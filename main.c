@@ -34,6 +34,14 @@ int main(int argc, char *argv[ ])
                 Mostra_lista_rotas(topo_rotas); 
             }
             break;
+		case 6:
+            if(strcmp(argv[3], "-L")==0 && strlen(argv[1])==3 && strlen(argv[2])==3 ){
+                Seleciona_lista(&topo_rotas, ap_reg_anterior_rotas, argv[1], argv[2], argv[4]);
+                Ordena_lista(topo_rotas, argv[5]);                
+                Mostra_lista_rotas(topo_rotas); 
+                
+            }
+            break;
 
     }
     return 0;

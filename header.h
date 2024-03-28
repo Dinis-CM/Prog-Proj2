@@ -45,3 +45,11 @@ void Seleciona_lista(ListaRotas* *topo, ListaRotas *ap_antes, char IATA_partida[
 
 ListaRotas* RetiraDaLista(ListaRotas* *topo, ListaRotas* ap_antes);
 
+void Ordena_lista(ListaRotas *topo, char arg[]);
+
+void Ordena_decrescente(ListaRotas **topo);
+
+void Ordena_crescente(ListaRotas **topo);
+
+void troca_conteudos(ListaRotas *a, ListaRotas *b);
+

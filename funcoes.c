@@ -309,7 +309,83 @@ ListaRotas* RetiraDaLista(ListaRotas* *topo, ListaRotas* ap_antes) {
 	return *topo;
 }
 
+void Ordena_lista(ListaRotas *topo, char arg[]) {
+    
+    if(strcmp(arg, "-TD")==0){
+        Ordena_decrescente(&topo);
+    }
 
-
+    if(strcmp(arg, "-TC")==0){
+        Ordena_crescente(&topo);
+    }
 
     
+}
+
+void Ordena_crescente(ListaRotas* *topo){
+    int troca = 1;
+    int i=0, j=0;
+
+    ListaRotas *atual=*topo;
+
+    while(atual != NULL){
+ 
+       atual = atual->prox;
+       i++;
+    }   
+    
+    while (troca == 1)
+    {
+        troca = 0; // Supor que é a última vez
+        atual=*topo;
+        for (j = 0; j < i-1; j++){
+            if (atual != NULL && atual->prox != NULL && (atual->x.hora_partida[0] > atual->prox->x.hora_partida[0] ||(atual->x.hora_partida[0] == atual->prox->x.hora_partida[0] && atual->x.hora_partida[1] > atual->prox->x.hora_partida[1])))
+            {
+                troca_conteudos(atual, atual->prox);
+                troca = 1;
+            }
+            atual=atual->prox;
+        } 
+            
+    }
+}
+
+void Ordena_decrescente(ListaRotas* *topo){
+    int troca = 1;
+    int i=0, j=0;
+
+    ListaRotas *atual=*topo;
+
+    while(atual != NULL){
+ 
+       atual = atual->prox;
+       i++;
+    }    
+    
+    while (troca == 1)
+    {
+        troca = 0; // Supor que é a última vez
+        atual=*topo;
+        for (j = 0; j < i-1; j++){
+            if (atual != NULL && atual->prox != NULL && (atual->x.hora_partida[0] < atual->prox->x.hora_partida[0] ||(atual->x.hora_partida[0] == atual->prox->x.hora_partida[0] && atual->x.hora_partida[1] < atual->prox->x.hora_partida[1])))
+            {
+                troca_conteudos(atual, atual->prox);
+                troca = 1;
+            }
+            atual=atual->prox;
+        } 
+            
+    }
+}
+
+void troca_conteudos(ListaRotas *a, ListaRotas *b){
+    DadosRotas temp;
+    temp=a->x;
+    a->x = b->x;
+    b->x=temp;
+}
+
+
+
+
+
