@@ -1,5 +1,7 @@
 #include "header.h"
 
+/*Esta função tem por objetivo ler os dados de um ficheiro inicializando a lista de aeroportos
+ou a lista das rotas dos voos*/
 void leitura(char filename[], ListaAero* *topo_aero, ListaRotas* *topo_rotas){
 
     FILE *fp;
@@ -21,6 +23,7 @@ void leitura(char filename[], ListaAero* *topo_aero, ListaRotas* *topo_rotas){
 
 }
 
+/*Esta função tem por objetivo ler os o ficheiro do pointer e criar uma lista de aeroportos*/
 void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero){
     
     ListaAero *ap_local = NULL;
@@ -78,6 +81,7 @@ void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero){
     }
 }
 
+/*Esta função tem por objetivo ler os o ficheiro do pointer e criar uma lista de rotas*/
 void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aero){
     
     ListaRotas *ap_local = NULL;
