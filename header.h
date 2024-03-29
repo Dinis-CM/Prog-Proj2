@@ -1,3 +1,6 @@
+#ifndef HEADER
+#define HEADER
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,6 +11,7 @@
 typedef struct DadosRotas{
     int hora_partida[2], hora_chegada[2], distancia, tempo[2];
     char companhia[30], codigo[10], IATA_partida[3], IATA_chegada[3];
+    float hora_universal_partida, hora_universal_chegada;
 }DadosRotas;
 
 typedef struct ListaRotas {
@@ -25,31 +29,50 @@ typedef struct ListaAero {
     struct ListaAero *prox;
 }ListaAero;
 
-void leitura(char filename[], ListaAero* *topo_aero, ListaRotas* *topo_rotas, ListaAero* *ap_reg_anterior_aero, ListaRotas* *ap_reg_anterior_rotas);
+typedef struct DadosEscalas{
+    int tempo_total[2], hora_partida_total[2], hora_chegada_total[2], distancia_total;  
+}DadosEscalas;
 
-void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero, ListaAero* *ap_reg_anterior_aero);
+typedef struct ListaEscalas {
+    DadosRotas Voo1;
+    DadosRotas Voo2;
+    DadosRotas Voo3;
+    DadosEscalas Total;
+    struct ListaEscalas *prox;
+}ListaEscalas;
 
-void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaRotas* *ap_reg_anterior_rotas, ListaAero* *topo_aero);
 
-void Mostra_lista_aero(ListaAero* topo); 
+//Leitura.c
+void leitura(char filename[], ListaAero* *topo_aero, ListaRotas* *topo_rotas);
+void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero);
+void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aero);
 
-void Mostra_lista_rotas(ListaRotas* topo);
-
+//Calculo.c
 float calcula_distancia(char partida[3], char chegada[3], ListaAero* *topo_aero);
-
-float calcula_tempo(char partida[3], char chegada[3], int Hora_partida[2], int hora_chegada[2], ListaAero* *topo_aero);
-
+void calcula_tempo(char partida[3], char chegada[3], int hora_partida[2], int hora_chegada[2], float* tempo, float* hp, float* hc, ListaAero* *topo_aero);
 void converte_distancia_decimal(ListaAero *aux, float lat, float lon, float* x, float *y, float *z);
 
-void Seleciona_lista(ListaRotas* *topo, ListaRotas *ap_antes, char IATA_partida[3], char IATA_chegada[3], char escala[1]);
+//Mostra.c
+void Mostra_lista_aero(ListaAero* topo);
+void Mostra_lista_rotas(ListaRotas *topo);
+void Mostra_lista_escalas(ListaEscalas* topo, char escala[1]);
+void Mostra_lista_0_escalas(ListaEscalas* topo);
+void Mostra_lista_1_escalas(ListaEscalas* topo);
+void Mostra_lista_2_escalas(ListaEscalas* topo);
 
-ListaRotas* RetiraDaLista(ListaRotas* *topo, ListaRotas* ap_antes);
 
-void Ordena_lista(ListaRotas *topo, char arg[]);
+//Seleciona.c
+ListaEscalas* Seleciona_lista(ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3], char escala[1]);
+ListaEscalas* Adiciona_voo_0_escalas(ListaEscalas* topo_escalas, ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3]);
+ListaEscalas* Adiciona_voo_1_escalas(ListaEscalas* topo_escalas, ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3]);
+ListaEscalas* Adiciona_voo_2_escalas(ListaEscalas* topo_escalas, ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3]);
 
-void Ordena_decrescente(ListaRotas **topo);
 
-void Ordena_crescente(ListaRotas **topo);
-
-void troca_conteudos(ListaRotas *a, ListaRotas *b);
-
+//Ordena.c
+void Ordena_lista(ListaEscalas* *topo, char arg[]);
+void Ordena_decrescente(ListaEscalas **topo);
+void Ordena_crescente(ListaEscalas* *topo);
+void Ordena_distancia(ListaEscalas* *topo);
+void troca_conteudos(ListaEscalas *a, ListaEscalas *b);
+ListaEscalas* RetiraDaLista(ListaEscalas* *topo, ListaEscalas* ap_antes);
+#endif
