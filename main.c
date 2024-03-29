@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[])
 {
-
+ /*Inicializção das listas de aeroportos, rotas e escalas*/
     ListaAero *topo_aero = NULL;
 
     ListaRotas *topo_rotas = NULL;
