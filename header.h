@@ -8,40 +8,40 @@
 
 #define PI 3.14159265359
 
-/*Estrutura com dados relacionados com rotas de voo, horários de descolagem e aterragem, distâncias, companhiase
- códigos de voos e IATA*/
+//Estruturas
+
+//Estrutura que guarda os dados das rotas
 typedef struct DadosRotas{
     int hora_partida[2], hora_chegada[2], distancia, tempo[2];
     char companhia[30], codigo[10], IATA_partida[3], IATA_chegada[3];
     float hora_universal_partida, hora_universal_chegada;
 }DadosRotas;
 
-/*Lista que armazena dados da estrutura "DadosRotas"*/
+//Lista das diversas rotas
 typedef struct ListaRotas {
     DadosRotas x;
     struct ListaRotas *prox;
 }ListaRotas;
 
-/*Estrutura com dados relacionados com códigos IATA e ICAO, cidade, latitude e longitude, time zones*/
+//Estrutura que guarda os dados dos aeroportos
 typedef struct DadosAero{
     char IATA[3], ICAO[4],  cidade[40], slat, slon;
     int lat[3], lon[3], tz;
 }DadosAero;
 
-/*Lista que armazena dados da estrutura "ListaRotas"*/
+//Lista dos diversos aeroportos
 typedef struct ListaAero {
     DadosAero x;
     struct ListaAero *prox;
 }ListaAero;
 
-/*Estrutura com dados relacionados com voos com escalas, considerando a distância, os horários de partida e chegada,
-e o tempo total de voo*/
+//Estrutura que guarda os dados gerais dos voos com escalas
 typedef struct DadosEscalas{
     int tempo_total[2], hora_partida_total[2], hora_chegada_total[2], distancia_total; 
     char IATA_partida_total[3], IATA_chegada_total[3]; 
 }DadosEscalas;
 
-/*Lista que armazena dados do voos diretos e com escala*/
+//Lista dos diversos voos com escalas
 typedef struct ListaEscalas {
     DadosRotas Voo1;
     DadosRotas Voo2;
@@ -50,6 +50,9 @@ typedef struct ListaEscalas {
     struct ListaEscalas *prox;
 }ListaEscalas;
 
+
+
+//Funcoes
 
 //Leitura.c
 void leitura(char filename[], ListaAero* *topo_aero, ListaRotas* *topo_rotas);
@@ -69,13 +72,11 @@ void Mostra_lista_0_escalas(ListaEscalas* topo);
 void Mostra_lista_1_escalas(ListaEscalas* topo);
 void Mostra_lista_2_escalas(ListaEscalas* topo);
 
-
 //Seleciona.c
 ListaEscalas* Seleciona_lista(ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3], char escala[1]);
 ListaEscalas* Adiciona_voo_0_escalas(ListaEscalas* topo_escalas, ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3]);
 ListaEscalas* Adiciona_voo_1_escalas(ListaEscalas* topo_escalas, ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3]);
 ListaEscalas* Adiciona_voo_2_escalas(ListaEscalas* topo_escalas, ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3]);
-
 
 //Ordena.c
 void Ordena_lista(ListaEscalas* *topo, char arg[]);
