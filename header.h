@@ -68,9 +68,6 @@ void converte_distancia_decimal(ListaAero *aux, float lat, float lon, float* x, 
 void Mostra_lista_aero(ListaAero* topo);
 void Mostra_lista_rotas(ListaRotas *topo);
 void Mostra_lista_escalas(ListaEscalas* topo, char escala[1]);
-void Mostra_lista_0_escalas(ListaEscalas* topo);
-void Mostra_lista_1_escalas(ListaEscalas* topo);
-void Mostra_lista_2_escalas(ListaEscalas* topo);
 
 //Seleciona.c
 ListaEscalas* Seleciona_lista(ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3], char escala[1]);

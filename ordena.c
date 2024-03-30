@@ -1,6 +1,6 @@
 #include "header.h"
 
-
+//Decide o método de ordenação / selecao
 void Ordena_lista(ListaEscalas* *topo, char arg[]) {
     
     if(strcmp(arg, "-TD")==0){
@@ -21,6 +21,7 @@ void Ordena_lista(ListaEscalas* *topo, char arg[]) {
     }   
 }
 
+//Ordena por ordem crescente
 void Ordena_crescente(ListaEscalas* *topo){
     
     int troca = 1;
@@ -28,11 +29,13 @@ void Ordena_crescente(ListaEscalas* *topo){
 
     ListaEscalas *atual=*topo;
 
+    //Numero de elementos na lista
     while(atual != NULL){
        atual = atual->prox;
        i++;
     }   
 
+    //Passa pela lista i-1 vezes ou até nada trocar e troca conteudos se a hora de partida seguinte for menor
     while (troca == 1){
 
         troca = 0;
@@ -51,6 +54,7 @@ void Ordena_crescente(ListaEscalas* *topo){
     }
 }
 
+//Ordena por ordem crescente
 void Ordena_decrescente(ListaEscalas* *topo){
     
     int troca = 1;
@@ -58,11 +62,13 @@ void Ordena_decrescente(ListaEscalas* *topo){
 
     ListaEscalas *atual=*topo;
 
+    //Numero de elementos na lista
     while(atual != NULL){
        atual = atual->prox;
        i++;
     }    
     
+    //Passa pela lista i-1 vezes ou até nada trocar e troca conteudos se a hora de partida seguinte for menor
     while (troca == 1){
         
         troca = 0;
@@ -80,12 +86,15 @@ void Ordena_decrescente(ListaEscalas* *topo){
     }
 }
 
+//Mostra apenas distancia mais curta
 void Ordena_distancia(ListaEscalas** topo) {
     ListaEscalas *atual = *topo, *anterior = NULL, *temp = NULL;
 
+    //Verifica se a lista tem dois ou mais elementos
     if(*topo==NULL || (*topo)->prox==NULL)
         return;
 
+    //Se a distancia do elemento a seguir for menor, retira o elemento da lista
     while (atual->prox != NULL) {
         temp = atual->prox;
         if (temp != NULL && atual->Total.distancia_total > temp->Total.distancia_total)
@@ -96,11 +105,13 @@ void Ordena_distancia(ListaEscalas** topo) {
         }
     }
 
+    //Garantir que também se verifica o ultimo elemento da lista
     if (anterior->prox!=NULL && anterior->Total.distancia_total < anterior->prox->Total.distancia_total)
         RetiraDaLista(topo, anterior);
 }
 
 
+//Remove da lista um elemento e retorna o topo desta
 ListaEscalas* RetiraDaLista(ListaEscalas** topo, ListaEscalas* ap_antes) {
     
     ListaEscalas *eliminar = NULL;
@@ -121,6 +132,7 @@ ListaEscalas* RetiraDaLista(ListaEscalas** topo, ListaEscalas* ap_antes) {
 }
 
 
+//Troca conteudos entre dois elementos da ListaEscalas
 void troca_conteudos(ListaEscalas *a, ListaEscalas *b){
 
     DadosRotas temp;
