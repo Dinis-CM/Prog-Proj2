@@ -14,7 +14,7 @@
 typedef struct DadosRotas{
     int hora_partida[2], hora_chegada[2], distancia, tempo[2];
     char companhia[30], codigo[10], IATA_partida[3], IATA_chegada[3];
-    float hora_universal_partida, hora_universal_chegada;
+    float hora_universal_partida, hora_universal_chegada, tempo_decimal;
 }DadosRotas;
 
 //Lista das diversas rotas

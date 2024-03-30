@@ -82,6 +82,8 @@ float calcula_tempo(char partida[3], char chegada[3], int hora_partida[2], int h
         *hp = hora_partida[0] + (hora_partida[1] / 60.0) - ap_partida->x.tz;
         *hc = hora_chegada[0] + (hora_chegada[1] / 60.0) - ap_chegada->x.tz;
         tempo = *hc - *hp;
+        if (tempo<0)
+            tempo = 24 + tempo;
     } 
     return tempo;
 } 

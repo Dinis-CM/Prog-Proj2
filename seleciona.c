@@ -64,15 +64,17 @@ ListaEscalas* Adiciona_voo_0_escalas(ListaEscalas* topo_escalas, ListaRotas* top
 ListaEscalas* Adiciona_voo_1_escalas(ListaEscalas* topo_escalas, ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3]){
     ListaRotas *aux1 = NULL, *aux2=NULL;
     ListaEscalas *ap_local = NULL, *help = NULL;
+    float tempo_total;
    
     for (aux1 = topo_rotas; aux1 != NULL; aux1=aux1->prox){
         if (IATA_partida[0] == aux1->x.IATA_partida[0] && IATA_partida[1] == aux1->x.IATA_partida[1] && IATA_partida[2] == aux1->x.IATA_partida[2]) {
                 
                 for (aux2 = topo_rotas; aux2 != NULL; aux2=aux2->prox){
-                    if (IATA_chegada[0] == aux2->x.IATA_chegada[0] && IATA_chegada[1] == aux2->x.IATA_chegada[1] && 
-                        IATA_chegada[2] == aux2->x.IATA_chegada[2] && aux1->x.IATA_chegada[0] == aux2->x.IATA_partida[0] && aux1->x.IATA_chegada[1] == aux2->x.IATA_partida[1] && aux1->x.IATA_chegada[2] == aux2->x.IATA_partida[2] && aux1->x.hora_universal_chegada <= aux2->x.hora_universal_partida){
+                    if (IATA_chegada[0] == aux2->x.IATA_chegada[0] && IATA_chegada[1] == aux2->x.IATA_chegada[1] && IATA_chegada[2] == aux2->x.IATA_chegada[2] && aux1->x.IATA_chegada[0] == aux2->x.IATA_partida[0] && aux1->x.IATA_chegada[1] == aux2->x.IATA_partida[1] && aux1->x.IATA_chegada[2] == aux2->x.IATA_partida[2] && aux1->x.hora_universal_chegada < aux2->x.hora_universal_partida){
                         
                         ap_local = (ListaEscalas*)calloc(1, sizeof(ListaEscalas));
+
+                        tempo_total = 0;
 
                         ap_local->Voo1 = aux1->x;     
                         ap_local->Voo2 = aux2->x;            
@@ -94,11 +96,16 @@ ListaEscalas* Adiciona_voo_1_escalas(ListaEscalas* topo_escalas, ListaRotas* top
                         ap_local->Total.hora_partida_total[1] = aux1->x.hora_partida[1];
                         ap_local->Total.hora_chegada_total[0] = aux2->x.hora_chegada[0];
                         ap_local->Total.hora_chegada_total[1] = aux2->x.hora_chegada[1];
-                        ap_local->Total.tempo_total[1] = (aux1->x.tempo[1] + aux2->x.tempo[1] + (int)(((aux2->x.hora_universal_partida - aux1->x.hora_universal_chegada)-(int)(aux2->x.hora_universal_partida - aux1->x.hora_universal_chegada))*60) ) % 60;                            
-                        ap_local->Total.tempo_total[0] = aux2->x.tempo[0] + aux1->x.tempo[0] + (int)(aux2->x.hora_universal_partida - aux1->x.hora_universal_chegada) + (ap_local->Total.tempo_total[1])/60;
+
+                        tempo_total = aux1->x.tempo_decimal +  aux2->x.tempo_decimal + (aux2->x.hora_universal_partida - aux1->x.hora_universal_chegada);
+                        
+                        ap_local->Total.tempo_total[0] = (int)(tempo_total);
+                        ap_local->Total.tempo_total[1] = (tempo_total - (int)(tempo_total)) * 60;
+                     
+
                         ap_local->Total.distancia_total = aux1->x.distancia + aux2->x.distancia;
-                            }
-                        }
+                    }
+                }
                        
         } 
     }  
@@ -110,15 +117,16 @@ ListaEscalas* Adiciona_voo_1_escalas(ListaEscalas* topo_escalas, ListaRotas* top
 ListaEscalas* Adiciona_voo_2_escalas(ListaEscalas* topo_escalas, ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3]){
     ListaRotas *aux1 = NULL, *aux2=NULL, *aux3=NULL;
     ListaEscalas *ap_local = NULL, *help = NULL;
+    float tempo_total;
    
     for (aux1 = topo_rotas; aux1 != NULL; aux1=aux1->prox){
         if (IATA_partida[0] == aux1->x.IATA_partida[0] && IATA_partida[1] == aux1->x.IATA_partida[1] && IATA_partida[2] == aux1->x.IATA_partida[2]) {
                 
-                for (aux2 = topo_rotas; aux2 != NULL; aux2=aux2->prox){
-                    if (aux1->x.IATA_chegada[0] == aux2->x.IATA_partida[0] && aux1->x.IATA_chegada[1] == aux2->x.IATA_partida[1] && aux1->x.IATA_chegada[2] == aux2->x.IATA_partida[2] && aux1->x.hora_universal_chegada <= aux2->x.hora_universal_partida && IATA_chegada[0] != aux2->x.IATA_chegada[0] && IATA_chegada[1] != aux2->x.IATA_chegada[1] && IATA_chegada[2] != aux2->x.IATA_chegada[2] && aux2->x.IATA_chegada[0] != aux1->x.IATA_partida[0] && aux2->x.IATA_chegada[1] != aux1->x.IATA_partida[1] && aux2->x.IATA_chegada[2] != aux1->x.IATA_partida[2]){
+            for (aux2 = topo_rotas; aux2 != NULL; aux2=aux2->prox){
+                if (aux1->x.IATA_chegada[0] == aux2->x.IATA_partida[0] && aux1->x.IATA_chegada[1] == aux2->x.IATA_partida[1] && aux1->x.IATA_chegada[2] == aux2->x.IATA_partida[2] && aux1->x.hora_universal_chegada <= aux2->x.hora_universal_partida && IATA_chegada[0] != aux2->x.IATA_chegada[0] && IATA_chegada[1] != aux2->x.IATA_chegada[1] && IATA_chegada[2] != aux2->x.IATA_chegada[2] && aux2->x.IATA_chegada[0] != aux1->x.IATA_partida[0] && aux2->x.IATA_chegada[1] != aux1->x.IATA_partida[1] && aux2->x.IATA_chegada[2] != aux1->x.IATA_partida[2] && aux1->x.hora_universal_chegada < aux2->x.hora_universal_partida){
 
-                        for (aux3 = topo_rotas; aux3 != NULL; aux3=aux3->prox){
-                            if (IATA_chegada[0] == aux3->x.IATA_chegada[0] && IATA_chegada[1] == aux3->x.IATA_chegada[1] && IATA_chegada[2] == aux3->x.IATA_chegada[2] && aux2->x.IATA_chegada[0] == aux3->x.IATA_partida[0] && aux2->x.IATA_chegada[1] == aux3->x.IATA_partida[1] && aux2->x.IATA_chegada[2] == aux3->x.IATA_partida[2] && aux2->x.hora_universal_chegada <= aux3->x.hora_universal_partida){
+                    for (aux3 = topo_rotas; aux3 != NULL; aux3=aux3->prox){
+                        if (IATA_chegada[0] == aux3->x.IATA_chegada[0] && IATA_chegada[1] == aux3->x.IATA_chegada[1] && IATA_chegada[2] == aux3->x.IATA_chegada[2] && aux2->x.IATA_chegada[0] == aux3->x.IATA_partida[0] && aux2->x.IATA_chegada[1] == aux3->x.IATA_partida[1] && aux2->x.IATA_chegada[2] == aux3->x.IATA_partida[2] && aux2->x.hora_universal_chegada < aux3->x.hora_universal_partida){
                         
                             ap_local = (ListaEscalas*)calloc(1, sizeof(ListaEscalas));
 
@@ -143,15 +151,18 @@ ListaEscalas* Adiciona_voo_2_escalas(ListaEscalas* topo_escalas, ListaRotas* top
                             ap_local->Total.hora_partida_total[1] = aux1->x.hora_partida[1];
                             ap_local->Total.hora_chegada_total[0] = aux3->x.hora_chegada[0];
                             ap_local->Total.hora_chegada_total[1] = aux3->x.hora_chegada[1];
-                            ap_local->Total.tempo_total[1] = (aux1->x.tempo[1] + aux2->x.tempo[1] + aux3->x.tempo[1] + (int)(((aux2->x.hora_universal_partida - aux1->x.hora_universal_chegada)-(int)(aux2->x.hora_universal_partida - aux1->x.hora_universal_chegada))*60) + (int)(((aux3->x.hora_universal_partida - aux2->x.hora_universal_chegada)-(int)(aux3->x.hora_universal_partida - aux2->x.hora_universal_chegada))*60)) % 60;                            
-                            ap_local->Total.tempo_total[0] = aux2->x.tempo[0] + aux1->x.tempo[0] + aux3->x.tempo[0] + (int)(aux2->x.hora_universal_partida - aux1->x.hora_universal_chegada) + (int)(aux3->x.hora_universal_partida - aux2->x.hora_universal_chegada) + (ap_local->Total.tempo_total[1])/60;
-                            ap_local->Total.distancia_total = aux1->x.distancia + aux2->x.distancia + aux3->x.distancia;
-                                }
-                            }
+                            
+                        tempo_total = aux1->x.tempo_decimal +  aux2->x.tempo_decimal + aux3->x.tempo_decimal + (aux2->x.hora_universal_partida - aux1->x.hora_universal_chegada) + (aux3->x.hora_universal_partida - aux2->x.hora_universal_chegada);
+                        
+                        ap_local->Total.tempo_total[0] = (int)(tempo_total);
+                        ap_local->Total.tempo_total[1] = (tempo_total - (int)(tempo_total)) * 60;
+                            
+                        }
+                    }
                 }
             }
                        
         } 
-   }    
+    }    
     return topo_escalas;
 }
