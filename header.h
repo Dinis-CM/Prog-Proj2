@@ -8,39 +8,31 @@
 
 #define PI 3.14159265359
 
-/*Estrutura com dados relacionados com rotas de voo, horários de descolagem e aterragem, distâncias, companhiase
- códigos de voos e IATA*/
 typedef struct DadosRotas{
     int hora_partida[2], hora_chegada[2], distancia, tempo[2];
     char companhia[30], codigo[10], IATA_partida[3], IATA_chegada[3];
     float hora_universal_partida, hora_universal_chegada;
 }DadosRotas;
 
-/*Lista que armazena dados da estrutura "DadosRotas"*/
 typedef struct ListaRotas {
     DadosRotas x;
     struct ListaRotas *prox;
 }ListaRotas;
 
-/*Estrutura com dados relacionados com códigos IATA e ICAO, cidade, latitude e longitude, time zones*/
 typedef struct DadosAero{
     char IATA[3], ICAO[4],  cidade[40], slat, slon;
     int lat[3], lon[3], tz;
 }DadosAero;
 
-/*Lista que armazena dados da estrutura "ListaRotas"*/
 typedef struct ListaAero {
     DadosAero x;
     struct ListaAero *prox;
 }ListaAero;
 
-/*Estrutura com dados relacionados com voos com escalas, considerando a distância, os horários de partida e chegada,
-e o tempo total de voo*/
 typedef struct DadosEscalas{
     int tempo_total[2], hora_partida_total[2], hora_chegada_total[2], distancia_total;  
 }DadosEscalas;
 
-/*Lista que armazena dados do voos diretos e com escala*/
 typedef struct ListaEscalas {
     DadosRotas Voo1;
     DadosRotas Voo2;
