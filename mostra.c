@@ -12,7 +12,7 @@ void Mostra_lista_aero(ListaAero* topo) {
     for (aux = topo; aux != NULL; aux = temp){
         
         printf("\n---Aeroporto de %s------------------------------------------------------------------------------------ \n", aux->x.cidade);
-        printf("Codigo ICAO: %c%c%c%c  Codigo IATA: %c%c%c  Coordenadas: %d %d %d %c %d %d %d %c  Hora local: %d \n", aux->x.ICAO[0], aux->x.ICAO[1], aux->x.ICAO[2], aux->x.ICAO[3], aux->x.IATA[0], aux->x.IATA[1], aux->x.IATA[2], aux->x.lat[0], aux->x.lat[1], aux->x.lat[2], aux->x.slat, aux->x.lon[0], aux->x.lon[1], aux->x.lon[2], aux->x.slon, aux->x.tz);
+        printf("Codigo ICAO: %s  Codigo IATA: %s  Coordenadas: %d %d %d %c %d %d %d %c  Hora local: %d \n", aux->x.ICAO, aux->x.IATA, aux->x.lat[0], aux->x.lat[1], aux->x.lat[2], aux->x.slat, aux->x.lon[0], aux->x.lon[1], aux->x.lon[2], aux->x.slon, aux->x.tz);
         printf("-------------------------------------------------------------------------------------------------------\n");   
        
         temp = aux->prox;

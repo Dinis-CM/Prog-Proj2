@@ -83,6 +83,9 @@ void Ordena_decrescente(ListaEscalas* *topo){
 void Ordena_distancia(ListaEscalas** topo) {
     ListaEscalas *atual = *topo, *anterior = NULL, *temp = NULL;
 
+    if(*topo==NULL || (*topo)->prox==NULL)
+        return;
+
     while (atual->prox != NULL) {
         temp = atual->prox;
         if (temp != NULL && atual->Total.distancia_total > temp->Total.distancia_total)

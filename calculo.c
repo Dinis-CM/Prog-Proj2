@@ -60,10 +60,12 @@ void converte_distancia_decimal(ListaAero *aux, float lat, float lon, float *x, 
 }
 
 /* Cálculo do tempo desde a descolagem até à a aterragem através dos códigos IATA*/
-void calcula_tempo(char partida[3], char chegada[3], int hora_partida[2], int hora_chegada[2], float* tempo, float* hp, float* hc, ListaAero* *topo_aero){
+float calcula_tempo(char partida[3], char chegada[3], int hora_partida[2], int hora_chegada[2], float *hp, float* hc, ListaAero* *topo_aero){
     ListaAero *aux = NULL; 
     ListaAero *ap_partida = NULL;
-    ListaAero *ap_chegada = NULL;     
+    ListaAero *ap_chegada = NULL;   
+    
+    float tempo;  
     
     for (aux = *topo_aero; aux != NULL; aux = aux->prox){
 
@@ -79,7 +81,8 @@ void calcula_tempo(char partida[3], char chegada[3], int hora_partida[2], int ho
     if(ap_partida!=NULL && ap_chegada!=NULL){
         *hp = hora_partida[0] + (hora_partida[1] / 60.0) - ap_partida->x.tz;
         *hc = hora_chegada[0] + (hora_chegada[1] / 60.0) - ap_chegada->x.tz;
-        *tempo = *hc - *hp;
+        tempo = *hc - *hp;
     } 
+    return tempo;
 } 
 

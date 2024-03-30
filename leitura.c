@@ -106,10 +106,10 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
             
 			distancia = calcula_distancia(IATA_partida, IATA_chegada, topo_aero);
 
-        	calcula_tempo(IATA_partida, IATA_chegada, hora_partida, hora_chegada, &tempo_decimal, &hora_universal_partida, &hora_universal_chegada, topo_aero);
+        	tempo_decimal=calcula_tempo(IATA_partida, IATA_chegada, hora_partida, hora_chegada, &hora_universal_partida, &hora_universal_chegada, topo_aero);
 
         	tempo[0] = (int)tempo_decimal; 
-        	tempo[1] = (int)((tempo_decimal - tempo[0]) * 60);           
+        	tempo[1] = (int)((tempo_decimal - tempo[0]) * 60);                   
 
 			if(distancia>0 && tempo_decimal>0){
 				
