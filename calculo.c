@@ -1,7 +1,7 @@
 #include "header.h"
 
 
-/*cálculo da distância entre dois aeroportos reccorrendo ao código IATA */
+//Calculo distancia entre dois aeroportos
 float calcula_distancia(char partida[3], char chegada[3], ListaAero* *topo){
     
     ListaAero *aux = NULL;    
@@ -9,7 +9,8 @@ float calcula_distancia(char partida[3], char chegada[3], ListaAero* *topo){
     ListaAero *xchegada = NULL;
 
     float latp=0, lonp=0, latc=0, lonc=0, xp=0, yp=0, zp=0, xc=0, yc=0, zc=0, theta=0, distancia=-99999;    
-    
+
+	//Verificar se os aeroportos indicados na rota existem
     for (aux = *topo; aux != NULL; aux = aux-> prox){
         
         if(partida[0]==aux->x.IATA[0] && partida[1]==aux->x.IATA[1] && partida[2]==aux->x.IATA[2])            
@@ -19,8 +20,7 @@ float calcula_distancia(char partida[3], char chegada[3], ListaAero* *topo){
             xchegada = aux;     
     }    
 
-    /*Cálculo da distância entre os dois aeroportos usando o conceito de grande círculo, se os aeroportos 
-    de partida e chegada forem encontrados*/
+    //Se os aeroportos de partida e chegada forem encontrados, calcular usando grande círculo
 	if(xpartida!=NULL && xchegada!=NULL){
         
         converte_distancia_decimal(xchegada, latc, lonc, &xc, &yc, &zc);
@@ -38,7 +38,7 @@ float calcula_distancia(char partida[3], char chegada[3], ListaAero* *topo){
     return distancia;     
 } 
 
-/* Converte a latitude e longitude do aeroporto (graus, minutos e segundos) para coordenas cartesianas*/
+//Converte a latitude e longitude do aeroporto (graus, minutos e segundos) para coordenas cartesianas
 void converte_distancia_decimal(ListaAero *aux, float lat, float lon, float *x, float *y, float *z){
 
     if(aux->x.slat=='N')
@@ -59,14 +59,15 @@ void converte_distancia_decimal(ListaAero *aux, float lat, float lon, float *x, 
 
 }
 
-/* Cálculo do tempo desde a descolagem até à a aterragem através dos códigos IATA*/
+//Cálculo do tempo decimal desde a descolagem até à aterragem
 float calcula_tempo(char partida[3], char chegada[3], int hora_partida[2], int hora_chegada[2], float *hp, float* hc, ListaAero* *topo_aero){
     ListaAero *aux = NULL; 
     ListaAero *ap_partida = NULL;
     ListaAero *ap_chegada = NULL;   
     
     float tempo;  
-    
+
+	//Verificar se os aeroportos indicados na rota existem
     for (aux = *topo_aero; aux != NULL; aux = aux->prox){
 
 		if(partida[0]==aux->x.IATA[0] && partida[1]==aux->x.IATA[1] && partida[2]==aux->x.IATA[2])
@@ -76,8 +77,7 @@ float calcula_tempo(char partida[3], char chegada[3], int hora_partida[2], int h
             ap_chegada = aux;            
     }  
     
-    /*Cálculo do tempo de voo entre os dois aeroportos 
-    recorrendo ao horário de partida e chegada se estes forem encontrados e válidos*/
+	//Se os aeroportos de partida e chegada forem encontrados, calcular tempo decimal
     if(ap_partida!=NULL && ap_chegada!=NULL){
         *hp = hora_partida[0] + (hora_partida[1] / 60.0) - ap_partida->x.tz;
         *hc = hora_chegada[0] + (hora_chegada[1] / 60.0) - ap_chegada->x.tz;
