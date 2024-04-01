@@ -49,8 +49,6 @@ int main(int argc, char *argv[])
 			/*Lista de voos com escalas*/
             if(strcmp(argv[3], "-L")==0 && strlen(argv[1])==3 && strlen(argv[2])==3){
                 topo_escalas = Seleciona_lista(topo_rotas, argv[1], argv[2], n_escala);
-                if(n_escala > 0)
-                    printf("\n \n ---AVISO: COMO NAO HA PREOCUPACAO HORARIA, PODE HAVER VOOS COM TEMPO TOTAL NEGATIVO --- \n \n");
                 Mostra_lista_escalas(topo_escalas, n_escala);
                 liberta_memoria(topo_aero, topo_rotas, topo_escalas);
                 return 0; 

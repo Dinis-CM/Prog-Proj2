@@ -65,7 +65,10 @@ void Mostra_lista_escalas(ListaEscalas* topo, int n_escala) {
         if(n_escala==2)
             printf("Voo 3 - Companhia: %s  Codigo: %s  Hora de partida (local): %02d:%02d  Hora de chegada (local): %02d:%02d Tempo: %02d:%02d  Distancia: %d km \n", aux->Voo3.companhia, aux->Voo3.codigo, aux->Voo3.hora_partida[0], aux->Voo3.hora_partida[1], aux->Voo3.hora_chegada[0], aux->Voo3.hora_chegada[1], aux->Voo3.tempo[0], aux->Voo3.tempo[1], aux->Voo3.distancia);
         
-        printf("Total - Hora de partida (local): %02d:%02d  Hora de chegada (local): %02d:%02d Tempo: %02d:%02d  Distancia: %d km\n", aux->Total.hora_partida_total[0], aux->Total.hora_partida_total[1], aux->Total.hora_chegada_total[0], aux->Total.hora_chegada_total[1], aux->Total.tempo_total[0], aux->Total.tempo_total[1], aux->Total.distancia_total);
+        if(aux->Total.tempo_total[0]>=0 && aux->Total.tempo_total[1]>=0)
+            printf("Total - Hora de partida (local): %02d:%02d  Hora de chegada (local): %02d:%02d Tempo: %02d:%02d  Distancia: %d km\n", aux->Total.hora_partida_total[0], aux->Total.hora_partida_total[1], aux->Total.hora_chegada_total[0], aux->Total.hora_chegada_total[1], aux->Total.tempo_total[0], aux->Total.tempo_total[1], aux->Total.distancia_total);
+        else
+            printf("Total - Hora de partida (local): %02d:%02d  Hora de chegada (local): %02d:%02d Tempo: --:-- (Invalido devido a falta de preocupacao horaria)  Distancia: %d km\n", aux->Total.hora_partida_total[0], aux->Total.hora_partida_total[1], aux->Total.hora_chegada_total[0], aux->Total.hora_chegada_total[1], aux->Total.distancia_total);
         
         printf("---------------------------------------------------------------------------------------------------------------------------------\n");   
     }
