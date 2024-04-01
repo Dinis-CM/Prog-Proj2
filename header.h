@@ -79,7 +79,10 @@ void Ordena_lista(ListaEscalas* *topo, char arg[], int n_escala);
 void Ordena_decrescente(ListaEscalas **topo, int n_escala);
 void Ordena_crescente(ListaEscalas* *topo, int n_escala);
 void Ordena_distancia(ListaEscalas* *topo, int n_escala);
+
+/*Memoria.c*/
 void troca_conteudos(ListaEscalas *a, ListaEscalas *b);
 ListaEscalas* RetiraDaLista(ListaEscalas* *topo, ListaEscalas* ap_antes);
+void liberta_memoria(ListaAero* topo_aero, ListaRotas* topo_rotas, ListaEscalas* topo_escalas);
 
 #endif

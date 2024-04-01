@@ -3,7 +3,7 @@
 #include "mostra.c"
 #include "seleciona.c"
 #include "ordena.c"
-
+#include "memoria.c"
 
 
 int main(int argc, char *argv[])
@@ -13,20 +13,19 @@ int main(int argc, char *argv[])
     ListaRotas *topo_rotas = NULL;
     ListaEscalas *topo_escalas = NULL;
 
-    int n_escala=-1, count=0;
+    int n_escala=-1;
 	
+    /*Numero de escalas*/    
+    if(argc > 4){
+        if( sscanf(argv[4], "%d", &n_escala) != 1 || n_escala < 0 || n_escala > 2){
+            printf("Parâmetros inválidos \n");
+            return 1;                
+        }
+    }  
+
     /*Leitura dos ficheiros*/
     leitura("aeroportos.txt", &topo_aero, &topo_rotas);
     leitura("rotas.txt", &topo_aero, &topo_rotas);
-
-    /*Numero de escalas*/    
-    if(argc >= 4){
-        count = sscanf(argv[4], "%d", &n_escala); 
-        if(count != 1 || n_escala < 0 || n_escala > 2){
-            printf("Parâmetros inválidos \n");
-            return 1;        
-        }
-    }  
 
 	/*Possiveis pedidos do utilizador*/
     switch(argc)
@@ -35,11 +34,13 @@ int main(int argc, char *argv[])
 			/*Lista de aeroportos*/
             if(strcmp(argv[1], "-aeroportos")==0){
                 Mostra_lista_aero(topo_aero);
+                liberta_memoria(topo_aero, topo_rotas, topo_escalas);
                 return 0;        
             }
 			/*Lista de rotas*/	
             else if(strcmp(argv[1], "-voos")==0){ 
-                Mostra_lista_rotas(topo_rotas);  
+                Mostra_lista_rotas(topo_rotas); 
+                liberta_memoria(topo_aero, topo_rotas, topo_escalas); 
                 return 0;
             }
             break;
@@ -51,6 +52,7 @@ int main(int argc, char *argv[])
                 if(n_escala > 0)
                     printf("\n \n ---AVISO: COMO NAO HA PREOCUPACAO HORARIA, PODE HAVER VOOS COM TEMPO TOTAL NEGATIVO --- \n \n");
                 Mostra_lista_escalas(topo_escalas, n_escala);
+                liberta_memoria(topo_aero, topo_rotas, topo_escalas);
                 return 0; 
             }
             break;
@@ -60,6 +62,7 @@ int main(int argc, char *argv[])
                 topo_escalas = Seleciona_lista(topo_rotas, argv[1], argv[2], n_escala);
                 Ordena_lista(&topo_escalas, argv[5], n_escala);                
                 Mostra_lista_escalas(topo_escalas, n_escala); 
+                liberta_memoria(topo_aero, topo_rotas, topo_escalas);
                 return 0;               
             }
             break;
@@ -71,10 +74,13 @@ int main(int argc, char *argv[])
                 Ordena_lista(&topo_escalas, argv[5], n_escala);
                 Ordena_lista(&topo_escalas, argv[6], n_escala);                
                 Mostra_lista_escalas(topo_escalas, n_escala); 
+                liberta_memoria(topo_aero, topo_rotas, topo_escalas);
                 return 0;                
             }
             break;
     }
+
+    liberta_memoria(topo_aero, topo_rotas, topo_escalas);
 	/*Leitura dos argumentos do utilizador invalida*/
     printf("Parâmetros inválidos \n");
     return 1;

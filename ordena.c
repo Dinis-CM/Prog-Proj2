@@ -20,7 +20,7 @@ void Ordena_lista(ListaEscalas* *topo, char arg[], int n_escala) {
 
     else{
         printf("Parâmetros inválidos \n");
-        exit(1);    
+        return;
     }   
 }
 
@@ -151,49 +151,5 @@ void Ordena_distancia(ListaEscalas** topo, int n_escala) {
         RetiraDaLista(topo, anterior);
 }
 
-
-/*Remove da lista um elemento e retorna o topo desta*/
-ListaEscalas* RetiraDaLista(ListaEscalas** topo, ListaEscalas* ap_antes) {
-    
-    ListaEscalas *eliminar = NULL;
-
-    if (*topo == NULL)
-        return NULL;
-
-    if (ap_antes == NULL) {
-        eliminar = *topo;
-        *topo = (*topo)->prox;
-    } else {
-        eliminar = ap_antes->prox;
-        ap_antes->prox = eliminar->prox;
-    }
-
-    free(eliminar);
-    return *topo;
-}
-
-
-/*Troca conteudos entre dois elementos da ListaEscalas*/
-void troca_conteudos(ListaEscalas *a, ListaEscalas *b){
-
-    DadosRotas temp;
-    DadosEscalas aux;
-
-    temp=a->Voo1;
-    a->Voo1 = b->Voo1;
-    b->Voo1=temp;
-
-    temp=a->Voo2;
-    a->Voo2 = b->Voo2;
-    b->Voo2=temp;
-
-    temp=a->Voo3;
-    a->Voo3 = b->Voo3;
-    b->Voo3=temp;
-
-    aux=a->Total;
-    a->Total = b->Total;
-    b->Total=aux;
-}
 
 

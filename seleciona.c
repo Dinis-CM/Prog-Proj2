@@ -13,10 +13,7 @@ ListaEscalas* Seleciona_lista(ListaRotas *topo_rotas, char IATA_partida[3], char
 
     else if(n_escala==2)
         topo_escalas = Adiciona_voo_2_escalas(topo_escalas, topo_rotas, IATA_partida, IATA_chegada);
-    else{
-        printf("Parâmetros inválidos \n");
-        exit(1);    
-    }
+
     return topo_escalas;
 }
 

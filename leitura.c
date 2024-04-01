@@ -9,7 +9,7 @@ void leitura(char filename[], ListaAero* *topo_aero, ListaRotas* *topo_rotas){
 
     if (fp == NULL){
         printf("Erro na abertura do ficheiro %s .\n", filename);
-        exit(1);
+        return;
     }
     
     if(strcmp(filename, "aeroportos.txt")==0)
@@ -47,7 +47,7 @@ void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero){
 
             if (ap_local == NULL) {
                 printf("Falta de memoria durante a insercao\n");
-                exit(2);
+                return;
             }
 
             for(k=0; k<3; k++)
@@ -140,7 +140,7 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
 
 				if (ap_local == NULL) {
                     printf("Falta de memoria durante a insercao\n");
-                    exit(2);
+                    return;
             	}
 
             	strcpy(ap_local->x.companhia, companhia);
