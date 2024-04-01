@@ -1,6 +1,6 @@
 #include "header.h"
 
-//Leitura do ficheiro de aeroportos ou rotas
+/*Leitura do ficheiro de aeroportos ou rotas*/
 void leitura(char filename[], ListaAero* *topo_aero, ListaRotas* *topo_rotas){
 
     FILE *fp;
@@ -22,7 +22,7 @@ void leitura(char filename[], ListaAero* *topo_aero, ListaRotas* *topo_rotas){
 
 }
 
-//Leitura do ficheiro dos aeroportos e criação da respetiva lista
+/*Leitura do ficheiro dos aeroportos e criação da respetiva lista*/
 void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero){
     
     ListaAero *ap_local = NULL;
@@ -31,15 +31,18 @@ void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero){
     int lat[3], lon[3], tz, count, k;
     char line[200], IATA[3], ICAO[4], slat, slon, cidade[40], resto[10];
 
-	//Leitura ficheiro
+	/*Leitura ficheiro*/
     while(fgets(line, 200, fp)){    
 
         count = sscanf(line, "%c%c%c%c %c%c%c %d %d %d %c %d %d %d %c %s %d %s", &ICAO[0], &ICAO[1], &ICAO[2], &ICAO[3], &IATA[0], &IATA[1], &IATA[2], &lat[0], &lat[1], &lat[2], &slat, &lon[0], &lon[1], &lon[2], &slon, cidade, &tz, resto);
 
-		//Validação dos dados
-        if (count == 17 && 'A'<=ICAO[0]<='Z' && 'A'<=ICAO[1]<='Z' && 'A'<=ICAO[2]<='Z' && 'A'<=ICAO[3]<='Z' && 'A'<=IATA[0]<='Z' && 'A'<=IATA[1]<='Z' && 'A'<=IATA[2]<='Z' && 0<=lat[0]<=180 && 0<=lat[1]<=60 && 0<=lat[2]<=60 && 0<=lon[0]<=180 && 0<=lon[1]<=60 && 0<=lon[2]<=60 && -12<=tz<=12 && (slat=='N' || slat=='S') && (slon=='W' || slon=='E')) {
+		/*Validação dos dados*/
+        if (count == 17 && 'A'<=ICAO[0] && ICAO[0]<='Z' && 'A'<=ICAO[1] && ICAO[1]<='Z' && 'A'<=ICAO[2] && ICAO[2]<='Z' && 'A'<=ICAO[3] && ICAO[3]<='Z' &&
+            'A'<=IATA[0] && IATA[0]<='Z' && 'A'<=IATA[1] && IATA[1]<='Z' && 'A'<=IATA[2] && IATA[2]<='Z' && 
+            0<=lat[0] && lat[0]<=180 && 0<=lat[1] && lat[1]<=60 && 0<=lat[2] && lat[2]<=60 && 0<=lon[0] && lon[0]<=180 && 0<=lon[1] && lon[1]<=60 && 0<=lon[2] && lon[2]<=60 && -12<=tz && tz<=12 && 
+            (slat=='N' || slat=='S') && (slon=='W' || slon=='E')) {
 
-			//Alocação de memória e cópia para a lista
+			/*Alocação de memória e cópia para a lista*/
             ap_local = (ListaAero*)calloc(1, sizeof(ListaAero));
 
             if (ap_local == NULL) {
@@ -66,7 +69,7 @@ void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero){
             ap_local->x.tz = tz;
             ap_local->prox = NULL;
 
-			//Definicao do apontador para o novo elemento da lista
+			/*Definicao do apontador para o novo elemento da lista*/
             
 			if (*topo_aero == NULL) {
                 *topo_aero = ap_local;
@@ -85,7 +88,7 @@ void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero){
     }
 }
 
-//Leitura do ficheiro das rotas e criação da respetiva lista
+/*Leitura do ficheiro das rotas e criação da respetiva lista*/
 void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aero){
     
     ListaRotas *ap_local = NULL;
@@ -95,7 +98,7 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
     float distancia, tempo_decimal, hora_universal_partida, hora_universal_chegada;
     char line[200], companhia[80], companhia1[30], companhia2[30], codigo[10], IATA_partida[3], IATA_chegada[3], resto[10];
 	
- 	//Leitura do ficheiro
+ 	/*Leitura do ficheiro*/
     while(fgets(line, 200, fp)){    
 
         count1 = sscanf(line, "AIRLINE : %s %s", companhia1, companhia2);
@@ -106,14 +109,22 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
             strcpy(companhia, companhia1);
 
         count2 = sscanf(line, "%s %c%c%c %d:%d %c%c%c %d:%d %s", codigo, &IATA_partida[0], &IATA_partida[1], &IATA_partida[2], &hora_partida[0], &hora_partida[1], &IATA_chegada[0], &IATA_chegada[1], &IATA_chegada[2], &hora_chegada[0], &hora_chegada[1], resto);
+    
+        sscanf(line, "%s", resto);
+        
+        if (strcmp(resto, "...")==0)
+            strcpy(companhia, "\0");
 
-		//Validação dos dados
-        if (count2 == 11 && 'A'<=IATA_partida[0]<='Z' && 'A'<=IATA_partida[1]<='Z' && 'A'<=IATA_partida[2]<='Z' && 'A'<=IATA_chegada[0]<='Z' && 'A'<=IATA_chegada[1]<='Z' && 'A'<=IATA_chegada[2]<='Z' && 0<=hora_partida[0]<=23 && 0<=hora_partida[1]<=59 && 0<=hora_chegada[0]<=23 && 0<=hora_chegada[1]<=59) {
+		/*Validação dos dados*/
+        if (count2 == 11 && strcmp(companhia, "\0")!=0 &&
+            'A'<=IATA_partida[0] && IATA_partida[0]<='Z' && 'A'<=IATA_partida[1] && IATA_partida[1]<='Z' && 'A'<=IATA_partida[2] && IATA_partida[2]<='Z' && 
+            'A'<=IATA_chegada[0] && IATA_chegada[0]<='Z' && 'A'<=IATA_chegada[1] && IATA_chegada[1]<='Z' && 'A'<=IATA_chegada[2] && IATA_chegada[2]<='Z' && 
+            0<=hora_partida[0] && hora_partida[0]<=23 && 0<=hora_partida[1] && hora_partida[1]<=59 && 0<=hora_chegada[0] && hora_chegada[0]<=23 && 0<=hora_chegada[1] && hora_chegada[1]<=59){
     
             tempo_decimal=0;
             distancia=0;
 
-			//Calculo distancia e tempo de voo
+			/*Calculo distancia e tempo de voo*/
 			distancia = calcula_distancia(IATA_partida, IATA_chegada, topo_aero);
 
         	tempo_decimal=calcula_tempo(IATA_partida, IATA_chegada, hora_partida, hora_chegada, &hora_universal_partida, &hora_universal_chegada, topo_aero);
@@ -121,10 +132,10 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
         	tempo[0] = (int)tempo_decimal; 
         	tempo[1] = (int)((tempo_decimal - tempo[0]) * 60);                   
 
-			//Validacao distancia e tempo
+			/*Validacao distancia e tempo*/
 			if(distancia>0 && tempo_decimal>0){
 					
-				//Alocacao de memoria e copia dos dados para a lista
+				/*Alocacao de memoria e copia dos dados para a lista*/
 				ap_local = (ListaRotas*)calloc(1, sizeof(ListaRotas));
 
 				if (ap_local == NULL) {
@@ -153,7 +164,7 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
                 ap_local->x.tempo_decimal = tempo_decimal;
 
 
-				//Definição do apontador para o novo elemento da lista
+				/*Definição do apontador para o novo elemento da lista*/
 	            ap_local->prox = NULL;
 	
 	            if (*topo_rotas == NULL) {

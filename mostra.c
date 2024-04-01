@@ -1,6 +1,6 @@
 #include "header.h"
 
-//Imprime lista de aeroportos e retira-os da memória
+/*Imprime lista de aeroportos e retira-os da memória*/
 void Mostra_lista_aero(ListaAero* topo) {
 
     ListaAero *aux, *temp;
@@ -21,7 +21,7 @@ void Mostra_lista_aero(ListaAero* topo) {
     }
 }
 
-//Imprime lista de rotas e retira-as da memória
+/*Imprime lista de rotas e retira-as da memória*/
 void Mostra_lista_rotas(ListaRotas* topo) {
 
     ListaRotas *aux, *temp;
@@ -43,19 +43,16 @@ void Mostra_lista_rotas(ListaRotas* topo) {
     }
 }
 
-//Imprime lista de aeroportos e retira-os da memória
-void Mostra_lista_escalas(ListaEscalas* topo, char escala[1]) {
+/*Imprime lista de aeroportos e retira-os da memória*/
+void Mostra_lista_escalas(ListaEscalas* topo, int n_escala) {
 
     ListaEscalas *aux, *temp;    
-        
-    int n_escala=-1;
-
-    sscanf(escala, "%d", &n_escala); 
 
     if (topo == NULL) {
         printf("\n--- Lista esta vazia --- \n");
         return;
     }
+    
 
     for (aux = topo; aux != NULL; aux = temp){
 

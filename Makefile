@@ -2,7 +2,7 @@
 CC = gcc
 
 #Compiler flags
-FLAG = -lm -g
+FLAG = -Wall -pedantic -ansi -lm -g
 
 # Executable
 default: rotas2024

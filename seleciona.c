@@ -1,14 +1,10 @@
 #include "header.h"
 
-// Decide quantas escalas estamos à procura
-ListaEscalas* Seleciona_lista(ListaRotas *topo_rotas, char IATA_partida[3], char IATA_chegada[3], char escala[1]){
+/*Decide quantas escalas estamos à procura*/
+ListaEscalas* Seleciona_lista(ListaRotas *topo_rotas, char IATA_partida[3], char IATA_chegada[3], int n_escala){
 
     ListaEscalas *topo_escalas=NULL;
 
-    int n_escala=-1;
-
-	sscanf(escala, "%d", &n_escala); 
- 
     if(n_escala==0)
         topo_escalas = Adiciona_voo_0_escalas(topo_escalas, topo_rotas, IATA_partida, IATA_chegada);
     
@@ -24,17 +20,17 @@ ListaEscalas* Seleciona_lista(ListaRotas *topo_rotas, char IATA_partida[3], char
     return topo_escalas;
 }
 
-//Cria voos com  0 escalas
+/*Cria voos com  0 escalas*/
 ListaEscalas* Adiciona_voo_0_escalas(ListaEscalas* topo_escalas, ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3]){
         
     ListaRotas *aux = NULL;
     ListaEscalas *ap_local = NULL, *help = NULL;
    
-    //Passa por todos elementos da lista e verifica se o aeroporto de partida e chegada são os desejados
+    /*Passa por todos elementos da lista e verifica se o aeroporto de partida e chegada são os desejados*/
     for (aux = topo_rotas; aux != NULL; aux=aux->prox ){
         if (IATA_partida[0] == aux->x.IATA_partida[0] && IATA_partida[1] == aux->x.IATA_partida[1] && IATA_partida[2] == aux->x.IATA_partida[2] && IATA_chegada[0] == aux->x.IATA_chegada[0] && IATA_chegada[1] == aux->x.IATA_chegada[1] && IATA_chegada[2] == aux->x.IATA_chegada[2]) {
                 
-            //Aloca memória e copia/calcula dados de voo
+            /*Aloca memória e copia/calcula dados de voo*/
             ap_local = (ListaEscalas*)calloc(1, sizeof(ListaEscalas));
 
             ap_local->Voo1 = aux->x;                
@@ -66,22 +62,22 @@ ListaEscalas* Adiciona_voo_0_escalas(ListaEscalas* topo_escalas, ListaRotas* top
     return topo_escalas;  
 }
 
-//Cria voos com  1 escala
+/*Cria voos com  1 escala*/
 ListaEscalas* Adiciona_voo_1_escalas(ListaEscalas* topo_escalas, ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3]){
     ListaRotas *aux1 = NULL, *aux2=NULL;
     ListaEscalas *ap_local = NULL, *help = NULL;
     float tempo_total;
    
-    //Passa por todos elementos da lista e verifica se o aeroporto de partida e o desejado e o de chegada nao
+    /*Passa por todos elementos da lista e verifica se o aeroporto de partida e o desejado e o de chegada nao*/
     for (aux1 = topo_rotas; aux1 != NULL; aux1=aux1->prox){
         if (IATA_partida[0] == aux1->x.IATA_partida[0] && IATA_partida[1] == aux1->x.IATA_partida[1] && IATA_partida[2] == aux1->x.IATA_partida[2]) {
 
-            //Passa novamente por todos elementos da lista e verifica se o aeroporto de chegada e o desejado, se o de partida e igual ao do chegada do encontrado no primeiro loop e se o tempo de partida e superior ao de chegada                
+            /*Passa novamente por todos elementos da lista e verifica se o aeroporto de chegada e o desejado, se o de partida e igual ao do chegada do encontrado no primeiro loop*/                
             for (aux2 = topo_rotas; aux2 != NULL; aux2=aux2->prox){
-                if (IATA_chegada[0] == aux2->x.IATA_chegada[0] && IATA_chegada[1] == aux2->x.IATA_chegada[1] && IATA_chegada[2] == aux2->x.IATA_chegada[2] && aux1->x.IATA_chegada[0] == aux2->x.IATA_partida[0] && aux1->x.IATA_chegada[1] == aux2->x.IATA_partida[1] && aux1->x.IATA_chegada[2] == aux2->x.IATA_partida[2] && aux1->x.hora_universal_chegada < aux2->x.hora_universal_partida){
+                if (IATA_chegada[0] == aux2->x.IATA_chegada[0] && IATA_chegada[1] == aux2->x.IATA_chegada[1] && IATA_chegada[2] == aux2->x.IATA_chegada[2] && aux1->x.IATA_chegada[0] == aux2->x.IATA_partida[0] && aux1->x.IATA_chegada[1] == aux2->x.IATA_partida[1] && aux1->x.IATA_chegada[2] == aux2->x.IATA_partida[2]){
                     
 
-                    //Aloca memoria e copia/calcula dados
+                    /*Aloca memoria e copia/calcula dados*/
                     ap_local = (ListaEscalas*)calloc(1, sizeof(ListaEscalas));
 
 
@@ -123,25 +119,25 @@ ListaEscalas* Adiciona_voo_1_escalas(ListaEscalas* topo_escalas, ListaRotas* top
 }
 
 
-//Cria voo com 3 escalas
+/*Cria voo com 2 escalas*/
 ListaEscalas* Adiciona_voo_2_escalas(ListaEscalas* topo_escalas, ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3]){
     ListaRotas *aux1 = NULL, *aux2=NULL, *aux3=NULL;
     ListaEscalas *ap_local = NULL, *help = NULL;
     float tempo_total;
    
-    //Passa por todos elementos da lista e verifica se o aeroporto de partida e o desejado e o de chegada nao
+    /*Passa por todos elementos da lista e verifica se o aeroporto de partida e o desejado e o de chegada nao*/
     for (aux1 = topo_rotas; aux1 != NULL; aux1=aux1->prox){
         if (IATA_partida[0] == aux1->x.IATA_partida[0] && IATA_partida[1] == aux1->x.IATA_partida[1] && IATA_partida[2] == aux1->x.IATA_partida[2]) {
             
-            //Passa novamente por todos elementos da lista e verifica se o aeroporto de chegada nao e o desejado, se o de partida e igual ao do chegada do encontrado no primeiro loop, se o aeroporto de chegada deste voo e diferente do de partida do anterior e se o tempo de partida e superior ao de chegada do anterior    
+            /*Passa novamente por todos elementos da lista e verifica se o aeroporto de chegada nao e o desejado, se o de partida e igual ao do chegada do encontrado no primeiro loop*/  
             for (aux2 = topo_rotas; aux2 != NULL; aux2=aux2->prox){
-                if (aux1->x.IATA_chegada[0] == aux2->x.IATA_partida[0] && aux1->x.IATA_chegada[1] == aux2->x.IATA_partida[1] && aux1->x.IATA_chegada[2] == aux2->x.IATA_partida[2] && aux1->x.hora_universal_chegada <= aux2->x.hora_universal_partida && IATA_chegada[0] != aux2->x.IATA_chegada[0] && IATA_chegada[1] != aux2->x.IATA_chegada[1] && IATA_chegada[2] != aux2->x.IATA_chegada[2] && aux2->x.IATA_chegada[0] != aux1->x.IATA_partida[0] && aux2->x.IATA_chegada[1] != aux1->x.IATA_partida[1] && aux2->x.IATA_chegada[2] != aux1->x.IATA_partida[2] && aux1->x.hora_universal_chegada < aux2->x.hora_universal_partida){
+                if (aux1->x.IATA_chegada[0] == aux2->x.IATA_partida[0] && aux1->x.IATA_chegada[1] == aux2->x.IATA_partida[1] && aux1->x.IATA_chegada[2] == aux2->x.IATA_partida[2] && aux1->x.hora_universal_chegada <= aux2->x.hora_universal_partida && IATA_chegada[0] != aux2->x.IATA_chegada[0] && IATA_chegada[1] != aux2->x.IATA_chegada[1] && IATA_chegada[2] != aux2->x.IATA_chegada[2] && aux2->x.IATA_chegada[0] != aux1->x.IATA_partida[0] && aux2->x.IATA_chegada[1] != aux1->x.IATA_partida[1] && aux2->x.IATA_chegada[2] != aux1->x.IATA_partida[2]){
 
-                     //Passa novamente por todos elementos da lista e verifica se o aeroporto de chegada e o desejado, se o de partida e igual ao do chegada do encontrado no segundo loop e se o tempo de partida e superior ao de chegada do anterior
+                     /*Passa novamente por todos elementos da lista e verifica se o aeroporto de chegada e o desejado, se o de partida e igual ao do chegada do encontrado no segundo loop */
                     for (aux3 = topo_rotas; aux3 != NULL; aux3=aux3->prox){
-                        if (IATA_chegada[0] == aux3->x.IATA_chegada[0] && IATA_chegada[1] == aux3->x.IATA_chegada[1] && IATA_chegada[2] == aux3->x.IATA_chegada[2] && aux2->x.IATA_chegada[0] == aux3->x.IATA_partida[0] && aux2->x.IATA_chegada[1] == aux3->x.IATA_partida[1] && aux2->x.IATA_chegada[2] == aux3->x.IATA_partida[2] && aux2->x.hora_universal_chegada < aux3->x.hora_universal_partida){
+                        if (IATA_chegada[0] == aux3->x.IATA_chegada[0] && IATA_chegada[1] == aux3->x.IATA_chegada[1] && IATA_chegada[2] == aux3->x.IATA_chegada[2] && aux2->x.IATA_chegada[0] == aux3->x.IATA_partida[0] && aux2->x.IATA_chegada[1] == aux3->x.IATA_partida[1] && aux2->x.IATA_chegada[2] == aux3->x.IATA_partida[2]){
                         
-                            //Aloca memoria e copia/calcula dados
+                            /*Aloca memoria e copia/calcula dados*/
                             ap_local = (ListaEscalas*)calloc(1, sizeof(ListaEscalas));
 
                             ap_local->Voo1 = aux1->x;     
@@ -157,6 +153,8 @@ ListaEscalas* Adiciona_voo_2_escalas(ListaEscalas* topo_escalas, ListaRotas* top
                             
                             ap_local->Total.tempo_total[0] = (int)(tempo_total);
                             ap_local->Total.tempo_total[1] = (tempo_total - (int)(tempo_total)) * 60;
+
+                            ap_local->Total.distancia_total = aux1->x.distancia + aux2->x.distancia + aux3->x.distancia;
             
                             ap_local->prox = NULL;
 
