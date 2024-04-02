@@ -67,7 +67,7 @@ ListaEscalas* Adiciona_voo_1_escalas(ListaEscalas* topo_escalas, ListaRotas* top
    
     /*Passa por todos elementos da lista e verifica se o aeroporto de partida e o desejado e o de chegada nao*/
     for (aux1 = topo_rotas; aux1 != NULL; aux1=aux1->prox){
-        if (IATA_partida[0] == aux1->x.IATA_partida[0] && IATA_partida[1] == aux1->x.IATA_partida[1] && IATA_partida[2] == aux1->x.IATA_partida[2]) {
+        if (IATA_partida[0] == aux1->x.IATA_partida[0] && IATA_partida[1] == aux1->x.IATA_partida[1] && IATA_partida[2] == aux1->x.IATA_partida[2] && (IATA_chegada[0] != aux1->x.IATA_chegada[0] || IATA_chegada[1] != aux1->x.IATA_chegada[1] || IATA_chegada[2] != aux1->x.IATA_chegada[2])) {
 
             /*Passa novamente por todos elementos da lista e verifica se o aeroporto de chegada e o desejado, se o de partida e igual ao do chegada do encontrado no primeiro loop*/                
             for (aux2 = topo_rotas; aux2 != NULL; aux2=aux2->prox){
@@ -124,11 +124,13 @@ ListaEscalas* Adiciona_voo_2_escalas(ListaEscalas* topo_escalas, ListaRotas* top
    
     /*Passa por todos elementos da lista e verifica se o aeroporto de partida e o desejado e o de chegada nao*/
     for (aux1 = topo_rotas; aux1 != NULL; aux1=aux1->prox){
-        if (IATA_partida[0] == aux1->x.IATA_partida[0] && IATA_partida[1] == aux1->x.IATA_partida[1] && IATA_partida[2] == aux1->x.IATA_partida[2]) {
+        if (IATA_partida[0] == aux1->x.IATA_partida[0] && IATA_partida[1] == aux1->x.IATA_partida[1] && IATA_partida[2] == aux1->x.IATA_partida[2] && (IATA_chegada[0] != aux1->x.IATA_chegada[0] || IATA_chegada[1] != aux1->x.IATA_chegada[1] || IATA_chegada[2] != aux1->x.IATA_chegada[2])) {
             
-            /*Passa novamente por todos elementos da lista e verifica se o aeroporto de chegada nao e o desejado, se o de partida e igual ao do chegada do encontrado no primeiro loop*/  
+            /*Passa novamente por todos elementos da lista e verifica se o aeroporto de chegada nao e o desejado, se o de partida e igual ao do chegada do encontrado no primeiro loop e se nao esta a voltar para a partida do primeiro voo*/  
             for (aux2 = topo_rotas; aux2 != NULL; aux2=aux2->prox){
-                if (aux1->x.IATA_chegada[0] == aux2->x.IATA_partida[0] && aux1->x.IATA_chegada[1] == aux2->x.IATA_partida[1] && aux1->x.IATA_chegada[2] == aux2->x.IATA_partida[2] && aux1->x.hora_universal_chegada <= aux2->x.hora_universal_partida && IATA_chegada[0] != aux2->x.IATA_chegada[0] && IATA_chegada[1] != aux2->x.IATA_chegada[1] && IATA_chegada[2] != aux2->x.IATA_chegada[2] && aux2->x.IATA_chegada[0] != aux1->x.IATA_partida[0] && aux2->x.IATA_chegada[1] != aux1->x.IATA_partida[1] && aux2->x.IATA_chegada[2] != aux1->x.IATA_partida[2]){
+                if (aux1->x.IATA_chegada[0] == aux2->x.IATA_partida[0] && aux1->x.IATA_chegada[1] == aux2->x.IATA_partida[1] && aux1->x.IATA_chegada[2] == aux2->x.IATA_partida[2] && 
+                    (IATA_chegada[0] != aux2->x.IATA_chegada[0] || IATA_chegada[1] != aux2->x.IATA_chegada[1] || IATA_chegada[2] != aux2->x.IATA_chegada[2]) && 
+                    (aux2->x.IATA_chegada[0] != aux1->x.IATA_partida[0] || aux2->x.IATA_chegada[1] != aux1->x.IATA_partida[1] || aux2->x.IATA_chegada[2] != aux1->x.IATA_partida[2])){
 
                      /*Passa novamente por todos elementos da lista e verifica se o aeroporto de chegada e o desejado, se o de partida e igual ao do chegada do encontrado no segundo loop */
                     for (aux3 = topo_rotas; aux3 != NULL; aux3=aux3->prox){

@@ -119,6 +119,7 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
         if (count2 == 11 && strcmp(companhia, "\0")!=0 &&
             'A'<=IATA_partida[0] && IATA_partida[0]<='Z' && 'A'<=IATA_partida[1] && IATA_partida[1]<='Z' && 'A'<=IATA_partida[2] && IATA_partida[2]<='Z' && 
             'A'<=IATA_chegada[0] && IATA_chegada[0]<='Z' && 'A'<=IATA_chegada[1] && IATA_chegada[1]<='Z' && 'A'<=IATA_chegada[2] && IATA_chegada[2]<='Z' && 
+            (IATA_partida[0]!=IATA_chegada[0] || IATA_partida[1]!=IATA_chegada[1] || IATA_partida[2]!=IATA_chegada[2]) &&
             0<=hora_partida[0] && hora_partida[0]<=23 && 0<=hora_partida[1] && hora_partida[1]<=59 && 0<=hora_chegada[0] && hora_chegada[0]<=23 && 0<=hora_chegada[1] && hora_chegada[1]<=59){
     
             tempo_decimal=0;

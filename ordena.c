@@ -1,10 +1,10 @@
 #include "header.h"
 
 /*Decide o método de ordenação / selecao*/
-void Ordena_lista(ListaEscalas* *topo, char arg[], int n_escala) {
+int Ordena_lista(ListaEscalas* *topo, char arg[], int n_escala) {
 
     if(*topo == NULL)
-        return;
+        return 0;
     
     if(strcmp(arg, "-TD")==0){
         Ordena_decrescente(topo, n_escala);
@@ -20,8 +20,9 @@ void Ordena_lista(ListaEscalas* *topo, char arg[], int n_escala) {
 
     else{
         printf("Parâmetros inválidos \n");
-        return;
-    }   
+        return 1;
+    } 
+    return 0;  
 }
 
 /*Ordena por ordem crescente*/
@@ -65,7 +66,7 @@ void Ordena_crescente(ListaEscalas* *topo, int n_escala){
 
         for (j = 0; j < i-1; j++){
             
-             if (atual != NULL && atual->prox != NULL && (atual->Total.hora_partida_total[0] < atual->prox->Total.hora_partida_total[0] || (atual->Total.hora_partida_total[0] == atual->prox->Total.hora_partida_total[0] && atual->Total.hora_partida_total[1] < atual->prox->Total.hora_partida_total[1]))){
+             if (atual != NULL && atual->prox != NULL && (atual->Total.hora_partida_total[0] > atual->prox->Total.hora_partida_total[0] || (atual->Total.hora_partida_total[0] == atual->prox->Total.hora_partida_total[0] && atual->Total.hora_partida_total[1] > atual->prox->Total.hora_partida_total[1]))){
                 troca_conteudos(atual, atual->prox);
                 troca = 1;
             }
@@ -131,7 +132,7 @@ void Ordena_distancia(ListaEscalas** topo, int n_escala) {
 
     ListaEscalas *atual = *topo, *anterior = NULL, *temp = NULL;
 
-    /*Verifica se a lista tem dois ou mais elementos*/
+    /*Verifica se a lista tem dois ou mais elementos ou se sao so voos diretos*/
     if(*topo==NULL || (*topo)->prox==NULL || n_escala == 0)
         return;
 

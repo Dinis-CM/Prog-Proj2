@@ -75,7 +75,7 @@ ListaEscalas* Adiciona_voo_1_escalas(ListaEscalas* topo_escalas, ListaRotas* top
 ListaEscalas* Adiciona_voo_2_escalas(ListaEscalas* topo_escalas, ListaRotas* topo_rotas, char IATA_partida[3], char IATA_chegada[3]);
 
 /*Ordena.c*/
-void Ordena_lista(ListaEscalas* *topo, char arg[], int n_escala);
+int Ordena_lista(ListaEscalas* *topo, char arg[], int n_escala);
 void Ordena_decrescente(ListaEscalas **topo, int n_escala);
 void Ordena_crescente(ListaEscalas* *topo, int n_escala);
 void Ordena_distancia(ListaEscalas* *topo, int n_escala);
