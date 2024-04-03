@@ -1,6 +1,11 @@
 #include "header.h"
 
-/*Leitura do ficheiro de aeroportos ou rotas*/
+/*------------------------
+Funcao: leitura
+Objetivo: Leitura do ficheiro de aeroportos ou rotas, conforme escolhido
+Recebe: Nome do ficheiro escolhido, apontador para o inicio da lista de aeroportos e apontador para inicio da lista das rotas
+Retorna: ---
+-------------------------*/
 void leitura(char filename[], ListaAero* *topo_aero, ListaRotas* *topo_rotas){
 
     FILE *fp;
@@ -22,7 +27,12 @@ void leitura(char filename[], ListaAero* *topo_aero, ListaRotas* *topo_rotas){
 
 }
 
-/*Leitura do ficheiro dos aeroportos e criação da respetiva lista*/
+/*------------------------
+Funcao: leitura_lista_aero
+Objetivo: Leitura do ficheiro dos aeroportos e criação da respetiva lista
+Recebe: Apontador para o ficheiro, apontador para o inicio da lista de aeroportos
+Retorna: ---
+-------------------------*/
 void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero){
     
     ListaAero *ap_local = NULL;
@@ -61,9 +71,7 @@ void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero){
             
             for(k=0; k<3; k++)
                 ap_local->x.lon[k] = lon[k];
-        
             strcpy(ap_local->x.cidade, cidade);
-
             ap_local->x.slat = slat;
             ap_local->x.slon = slon;
             ap_local->x.tz = tz;
@@ -82,7 +90,12 @@ void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero){
     }
 }
 
-/*Leitura do ficheiro das rotas e criação da respetiva lista*/
+/*------------------------
+Funcao: leitura_lista_aero
+Objetivo: Leitura do ficheiro dos rotas e criação da respetiva lista
+Recebe: Apontador para o ficheiro, apontador para o inicio da lista de rotas, apontador para o inicio da lista de aeroportos
+Retorna: ---
+-------------------------*/
 void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aero){
     
     ListaRotas *ap_local = NULL, *aux = *topo_rotas;
@@ -100,11 +113,11 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
 
 		/*Validação dos dados*/
         if (count == 11 && strcmp(companhia, "\0")!=0 &&'A'<=IATA_partida[0] && IATA_partida[0]<='Z' && 'A'<=IATA_partida[1] && IATA_partida[1]<='Z' && 'A'<=IATA_partida[2] && IATA_partida[2]<='Z' && 'A'<=IATA_chegada[0] && IATA_chegada[0]<='Z' && 'A'<=IATA_chegada[1] && IATA_chegada[1]<='Z' && 'A'<=IATA_chegada[2] && IATA_chegada[2]<='Z' && (IATA_partida[0]!=IATA_chegada[0] || IATA_partida[1]!=IATA_chegada[1] || IATA_partida[2]!=IATA_chegada[2]) &&0<=hora_partida[0] && hora_partida[0]<=23 && 0<=hora_partida[1] && hora_partida[1]<=59 && 0<=hora_chegada[0] && hora_chegada[0]<=23 && 0<=hora_chegada[1] && hora_chegada[1]<=59){
-    
+            
+            /*Calculo distancia e tempo de voo*/
             tempo_decimal=0, distancia=0;   
             xpartida = procura_aeroporto(IATA_partida, topo_aero);
             xchegada = procura_aeroporto(IATA_chegada, topo_aero);
- 			/*Calculo distancia e tempo de voo*/
 			distancia = calcula_distancia(xpartida, xchegada);
         	tempo_decimal = calcula_tempo(hora_partida, hora_chegada, &hora_universal_partida, &hora_universal_chegada, xpartida, xchegada);
         	tempo[0] = (int)tempo_decimal; 
@@ -151,21 +164,26 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
     }
 }
 
-/*Extração da informação da companhia aérea*/
+/*------------------------
+Funcao: determina_companhia
+Objetivo: Extrair o nome da companhia do ficheiro de aeroportos
+Recebe: Linha do ficheiro de texto, nome da companhia aérea
+Retorna: ---
+-------------------------*/
 void determina_companhia(char line[], char* companhia){
     
     char companhia1[30]="\0", companhia2[30]="\0", reti[10]="\0";
 
-    /*Verificação se a "line" corresponde ao formato "AIRLINE"*/
+        /*Verifica se a string apresenta dados válidos e copia para a variavél "companhia"*/
     if(sscanf(line, "AIRLINE : %s %s", companhia1, companhia2) == 2)
             strcpy(companhia, strcat(companhia1, companhia2));
 
     
-    /*Verifica se a stirng apresenta dados válidos e copia para a variavél "companhia"*/
+    /*Verifica se a string apresenta dados válidos e copia para a variavél "companhia"*/
     else if(sscanf(line, "AIRLINE : %s %s", companhia1, companhia2) == 1)
             strcpy(companhia, companhia1);
     
-    /*Compara a companhia aso "..." e atribui uma string vazia */
+    /*Compara a companhia a "..." e atribui uma string vazia (fim da lista de voos da companhia) */
     sscanf(line, "%s", reti);
     if (strcmp(reti, "...")==0)
             strcpy(companhia, "\0");

@@ -62,7 +62,7 @@ void determina_companhia(char line[], char* companhia);
 /*Calculo.c*/
 float calcula_distancia(ListaAero* xpartida, ListaAero* xchegada);
 float calcula_tempo(int hora_partida[2], int hora_chegada[2], float* hp, float*hc, ListaAero* xpartida, ListaAero* xchegada);
-void converte_distancia_decimal(ListaAero *aux, float lat, float lon, float* x, float *y, float *z);
+void converte_distancia_decimal(ListaAero *aux, float* x, float *y, float *z);
 
 /*Mostra.c*/
 void Mostra_lista_aero(ListaAero* topo);

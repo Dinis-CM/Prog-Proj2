@@ -1,16 +1,21 @@
 #include "header.h"
 
 
-/*Calculo distancia entre dois aeroportos*/
+/*------------------------
+Funcao: calcula_distancia
+Objetivo: Calculo distancia entre dois aeroportos
+Recebe: Apontador para aeroporto de partida e apontador para aeroporto de chegada
+Retorna: Distancia entre aeroportos
+-------------------------*/
 float calcula_distancia(ListaAero *xpartida, ListaAero *xchegada){   
 
-    float latp=0, lonp=0, latc=0, lonc=0, xp=0, yp=0, zp=0, xc=0, yc=0, zc=0, theta=0, distancia=-99999;    
+    float xp=0, yp=0, zp=0, xc=0, yc=0, zc=0, theta=0, distancia=-99999;    
 
     /*Se os aeroportos de partida e chegada forem encontrados, calcular usando grande círculo*/
 	if(xpartida!=NULL && xchegada!=NULL){
         
-        converte_distancia_decimal(xchegada, latc, lonc, &xc, &yc, &zc);
-        converte_distancia_decimal(xpartida, latp, lonp, &xp, &yp, &zp);
+        converte_distancia_decimal(xchegada, &xc, &yc, &zc);
+        converte_distancia_decimal(xpartida, &xp, &yp, &zp);
         
 
         theta = acos(((xc*xp)+(yc*yp)+(zc*zp))/(sqrt(xc*xc+yc*yc+zc*zc) * sqrt(xp*xp+yp*yp+zp*zp)));
@@ -24,8 +29,15 @@ float calcula_distancia(ListaAero *xpartida, ListaAero *xchegada){
     return distancia;     
 } 
 
-/*Converte a latitude e longitude do aeroporto (graus, minutos e segundos) para coordenas cartesianas*/
-void converte_distancia_decimal(ListaAero *aux, float lat, float lon, float *x, float *y, float *z){
+/*------------------------
+Funcao: converte_distancia_decimal
+Objetivo: Converter a latitude e longitude do aeroporto (graus, minutos e segundos) para coordenas cartesianas
+Recebe: Apontador para aeroporto, coordenadas x, y, e z
+Retorna: ---
+-------------------------*/
+void converte_distancia_decimal(ListaAero *aux, float *x, float *y, float *z){
+
+    float lat, lon;
 
     if(aux->x.slat=='N')
         lat = aux->x.lat[0] + (aux->x.lat[1] / 60.0) + (aux->x.lat[2] / 3600.0);
@@ -45,8 +57,13 @@ void converte_distancia_decimal(ListaAero *aux, float lat, float lon, float *x, 
 
 }
 
-/*Cálculo do tempo decimal desde a descolagem até à aterragem*/
-float calcula_tempo(int hora_partida[2], int hora_chegada[2], float* hp, float*hc, ListaAero* xpartida, ListaAero* xchegada){
+/*------------------------
+Funcao: calcula_tempo
+Objetivo: Cálculo do tempo decimal desde a descolagem até à aterragem
+Recebe: Hora de partida, hora de chegada, hora de partida decimal (sem fuso horario), hora de chegada decimal (sem fuso horario), apontador para aeroporto de partida, apontador para aeroporto de chegada 
+Retorna: Tempo decimal
+-------------------------*/
+float calcula_tempo(int hora_partida[2], int hora_chegada[2], float* hp, float* hc, ListaAero* xpartida, ListaAero* xchegada){
     
     float tempo;  
     
