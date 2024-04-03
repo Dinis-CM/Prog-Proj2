@@ -90,21 +90,13 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
     
     int hora_partida[2], hora_chegada[2], tempo[2], count, k;
     float distancia, tempo_decimal, hora_universal_partida, hora_universal_chegada;
-    char line[200], companhia[80], companhia1[30], companhia2[30], codigo[10], IATA_partida[3], IATA_chegada[3], resto[10];
+    char line[200], companhia[80], codigo[10], IATA_partida[3], IATA_chegada[3], resto[10];
 	
  	/*Leitura do ficheiro*/
-    while(fgets(line, 200, fp)){    
-   
-        if(sscanf(line, "AIRLINE : %s %s", companhia1, companhia2) == 2)
-            strcpy(companhia, strcat(companhia1, companhia2));
-        else if(sscanf(line, "AIRLINE : %s %s", companhia1, companhia2) == 1)
-            strcpy(companhia, companhia1);
-
+    while(fgets(line, 200, fp)){  
+        
+        determina_companhia(line, companhia);  
         count = sscanf(line, "%s %c%c%c %d:%d %c%c%c %d:%d %s", codigo, &IATA_partida[0], &IATA_partida[1], &IATA_partida[2], &hora_partida[0], &hora_partida[1], &IATA_chegada[0], &IATA_chegada[1], &IATA_chegada[2], &hora_chegada[0], &hora_chegada[1], resto);
-    
-        sscanf(line, "%s", resto);
-        if (strcmp(resto, "...")==0)
-            strcpy(companhia, "\0");
 
 		/*Validação dos dados*/
         if (count == 11 && strcmp(companhia, "\0")!=0 &&'A'<=IATA_partida[0] && IATA_partida[0]<='Z' && 'A'<=IATA_partida[1] && IATA_partida[1]<='Z' && 'A'<=IATA_partida[2] && IATA_partida[2]<='Z' && 'A'<=IATA_chegada[0] && IATA_chegada[0]<='Z' && 'A'<=IATA_chegada[1] && IATA_chegada[1]<='Z' && 'A'<=IATA_chegada[2] && IATA_chegada[2]<='Z' && (IATA_partida[0]!=IATA_chegada[0] || IATA_partida[1]!=IATA_chegada[1] || IATA_partida[2]!=IATA_chegada[2]) &&0<=hora_partida[0] && hora_partida[0]<=23 && 0<=hora_partida[1] && hora_partida[1]<=59 && 0<=hora_chegada[0] && hora_chegada[0]<=23 && 0<=hora_chegada[1] && hora_chegada[1]<=59){
@@ -112,8 +104,7 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
             tempo_decimal=0, distancia=0;   
             xpartida = procura_aeroporto(IATA_partida, topo_aero);
             xchegada = procura_aeroporto(IATA_chegada, topo_aero);
-    
-			/*Calculo distancia e tempo de voo*/
+ 			/*Calculo distancia e tempo de voo*/
 			distancia = calcula_distancia(xpartida, xchegada);
         	tempo_decimal = calcula_tempo(hora_partida, hora_chegada, &hora_universal_partida, &hora_universal_chegada, xpartida, xchegada);
         	tempo[0] = (int)tempo_decimal; 
@@ -121,8 +112,7 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
 
 			/*Validacao distancia e tempo*/
 			if(distancia>0 && tempo_decimal>0){
-					
-				/*Alocação de memoria e copia dos dados para a lista*/
+				/*Alocacao de memoria e copia dos dados para a lista*/
 				ap_local = (ListaRotas*)calloc(1, sizeof(ListaRotas));
 				if (ap_local == NULL) {
                     printf("Falta de memoria durante a insercao\n");
@@ -161,4 +151,19 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
     }
 }
 
+void determina_companhia(char line[], char* companhia){
+    
+    char companhia1[30]="\0", companhia2[30]="\0", reti[10]="\0";
+
+    if(sscanf(line, "AIRLINE : %s %s", companhia1, companhia2) == 2)
+            strcpy(companhia, strcat(companhia1, companhia2));
+
+    else if(sscanf(line, "AIRLINE : %s %s", companhia1, companhia2) == 1)
+            strcpy(companhia, companhia1);
+    
+    sscanf(line, "%s", reti);
+    if (strcmp(reti, "...")==0)
+            strcpy(companhia, "\0");
+
+}
 

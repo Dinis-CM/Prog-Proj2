@@ -57,6 +57,7 @@ typedef struct ListaEscalas {
 void leitura(char filename[], ListaAero* *topo_aero, ListaRotas* *topo_rotas);
 void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero);
 void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aero);
+void determina_companhia(char line[], char* companhia);
 
 /*Calculo.c*/
 float calcula_distancia(ListaAero* xpartida, ListaAero* xchegada);
