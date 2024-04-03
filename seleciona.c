@@ -43,10 +43,8 @@ ListaEscalas* Adiciona_voo_0_escalas(ListaEscalas* topo_escalas, ListaRotas* top
             
             ap_local->prox = NULL;
 
-            if (topo_escalas == NULL) {
+            if (topo_escalas == NULL)
                 topo_escalas = ap_local;
-                help=topo_escalas;
-            } 
             else {
                 help = topo_escalas;
                 while (help->prox != NULL) {
@@ -96,10 +94,8 @@ ListaEscalas* Adiciona_voo_1_escalas(ListaEscalas* topo_escalas, ListaRotas* top
                     					
                     ap_local->prox = NULL;
 
-                    if (topo_escalas == NULL) {
+                    if (topo_escalas == NULL)
                         topo_escalas = ap_local;
-                        help=topo_escalas;
-                    } 
                     else {
                         help = topo_escalas;
                         while (help->prox != NULL) {
@@ -157,10 +153,8 @@ ListaEscalas* Adiciona_voo_2_escalas(ListaEscalas* topo_escalas, ListaRotas* top
             
                             ap_local->prox = NULL;
 
-                            if (topo_escalas == NULL) {
+                            if (topo_escalas == NULL)
                                 topo_escalas = ap_local;
-                                help=topo_escalas;
-                            } 
                             else {
                                 help = topo_escalas;
                                 while (help->prox != NULL) {
