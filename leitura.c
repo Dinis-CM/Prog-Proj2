@@ -110,7 +110,6 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
         if (count == 11 && strcmp(companhia, "\0")!=0 &&'A'<=IATA_partida[0] && IATA_partida[0]<='Z' && 'A'<=IATA_partida[1] && IATA_partida[1]<='Z' && 'A'<=IATA_partida[2] && IATA_partida[2]<='Z' && 'A'<=IATA_chegada[0] && IATA_chegada[0]<='Z' && 'A'<=IATA_chegada[1] && IATA_chegada[1]<='Z' && 'A'<=IATA_chegada[2] && IATA_chegada[2]<='Z' && (IATA_partida[0]!=IATA_chegada[0] || IATA_partida[1]!=IATA_chegada[1] || IATA_partida[2]!=IATA_chegada[2]) &&0<=hora_partida[0] && hora_partida[0]<=23 && 0<=hora_partida[1] && hora_partida[1]<=59 && 0<=hora_chegada[0] && hora_chegada[0]<=23 && 0<=hora_chegada[1] && hora_chegada[1]<=59){
     
             tempo_decimal=0, distancia=0;   
-
             xpartida = procura_aeroporto(IATA_partida, topo_aero);
             xchegada = procura_aeroporto(IATA_chegada, topo_aero);
     
@@ -123,7 +122,7 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
 			/*Validacao distancia e tempo*/
 			if(distancia>0 && tempo_decimal>0){
 					
-				/*Alocacao de memoria e copia dos dados para a lista*/
+				/*Alocação de memoria e copia dos dados para a lista*/
 				ap_local = (ListaRotas*)calloc(1, sizeof(ListaRotas));
 				if (ap_local == NULL) {
                     printf("Falta de memoria durante a insercao\n");
