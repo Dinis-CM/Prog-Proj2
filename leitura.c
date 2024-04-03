@@ -164,7 +164,12 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
     }
 }
 
-
+/*------------------------
+Funcao: determina_companhia
+Objetivo: Extrair o nome da companhia do ficheiro de aeroportos
+Recebe: Linha do ficheiro de texto, nome da companhia aérea
+Retorna: ---
+-------------------------*/
 void determina_companhia(char line[], char* companhia){
     
     char companhia1[30]="\0", companhia2[30]="\0", reti[10]="\0";
