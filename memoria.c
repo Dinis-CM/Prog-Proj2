@@ -69,4 +69,14 @@ void liberta_memoria(ListaAero* topo_aero, ListaRotas* topo_rotas, ListaEscalas*
     return;
 }
 
+ListaAero* procura_aeroporto(char IATA[3], ListaAero* *topo_aero){
     
+    ListaAero *aux = NULL;    
+
+    for (aux = *topo_aero; aux != NULL; aux = aux-> prox){     
+        if(IATA[0] == aux->x.IATA[0] && IATA[1] == aux->x.IATA[1] && IATA[2] == aux->x.IATA[2])
+            return aux;            
+    } 
+
+    return NULL;  
+}    

@@ -2,23 +2,9 @@
 
 
 /*Calculo distancia entre dois aeroportos*/
-float calcula_distancia(char partida[3], char chegada[3], ListaAero* *topo){
-    
-    ListaAero *aux = NULL;    
-    ListaAero *xpartida = NULL;
-    ListaAero *xchegada = NULL;
+float calcula_distancia(ListaAero *xpartida, ListaAero *xchegada){   
 
     float latp=0, lonp=0, latc=0, lonc=0, xp=0, yp=0, zp=0, xc=0, yc=0, zc=0, theta=0, distancia=-99999;    
-
-	/*Verificar se os aeroportos indicados na rota existem*/
-    for (aux = *topo; aux != NULL; aux = aux-> prox){
-        
-        if(partida[0]==aux->x.IATA[0] && partida[1]==aux->x.IATA[1] && partida[2]==aux->x.IATA[2])            
-            xpartida = aux;      
-
-        if(chegada[0]==aux->x.IATA[0] && chegada[1]==aux->x.IATA[1] && chegada[2]==aux->x.IATA[2])            
-            xchegada = aux;     
-    }    
 
     /*Se os aeroportos de partida e chegada forem encontrados, calcular usando grande círculo*/
 	if(xpartida!=NULL && xchegada!=NULL){
@@ -60,27 +46,14 @@ void converte_distancia_decimal(ListaAero *aux, float lat, float lon, float *x, 
 }
 
 /*Cálculo do tempo decimal desde a descolagem até à aterragem*/
-float calcula_tempo(char partida[3], char chegada[3], int hora_partida[2], int hora_chegada[2], float *hp, float* hc, ListaAero* *topo_aero){
-    ListaAero *aux = NULL; 
-    ListaAero *ap_partida = NULL;
-    ListaAero *ap_chegada = NULL;   
+float calcula_tempo(int hora_partida[2], int hora_chegada[2], float* hp, float*hc, ListaAero* xpartida, ListaAero* xchegada){
     
     float tempo;  
-
-	/*Verificar se os aeroportos indicados na rota existem*/
-    for (aux = *topo_aero; aux != NULL; aux = aux->prox){
-
-		if(partida[0]==aux->x.IATA[0] && partida[1]==aux->x.IATA[1] && partida[2]==aux->x.IATA[2])
-            ap_partida = aux;  
-        
-		if(chegada[0]==aux->x.IATA[0] && chegada[1]==aux->x.IATA[1] && chegada[2]==aux->x.IATA[2])
-            ap_chegada = aux;            
-    }  
     
 	/*Se os aeroportos de partida e chegada forem encontrados, calcular tempo decimal*/
-    if(ap_partida!=NULL && ap_chegada!=NULL){
-        *hp = hora_partida[0] + (hora_partida[1] / 60.0) - ap_partida->x.tz;
-        *hc = hora_chegada[0] + (hora_chegada[1] / 60.0) - ap_chegada->x.tz;
+    if(xpartida!=NULL && xchegada!=NULL){
+        *hp = hora_partida[0] + (hora_partida[1] / 60.0) - xpartida->x.tz;
+        *hc = hora_chegada[0] + (hora_chegada[1] / 60.0) - xchegada->x.tz;
         tempo = *hc - *hp;
         if (tempo<0)
             tempo = 24 + tempo;

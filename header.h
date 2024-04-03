@@ -59,8 +59,8 @@ void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero);
 void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aero);
 
 /*Calculo.c*/
-float calcula_distancia(char partida[3], char chegada[3], ListaAero* *topo_aero);
-float calcula_tempo(char partida[3], char chegada[3], int hora_partida[2], int hora_chegada[2], float* hp, float*hc, ListaAero* *topo_aero);
+float calcula_distancia(ListaAero* xpartida, ListaAero* xchegada);
+float calcula_tempo(int hora_partida[2], int hora_chegada[2], float* hp, float*hc, ListaAero* xpartida, ListaAero* xchegada);
 void converte_distancia_decimal(ListaAero *aux, float lat, float lon, float* x, float *y, float *z);
 
 /*Mostra.c*/
@@ -84,6 +84,7 @@ void Ordena_distancia(ListaEscalas* *topo, int n_escala);
 void troca_conteudos(ListaEscalas *a, ListaEscalas *b);
 ListaEscalas* RetiraDaLista(ListaEscalas* *topo, ListaEscalas* ap_antes);
 void liberta_memoria(ListaAero* topo_aero, ListaRotas* topo_rotas, ListaEscalas* topo_escalas);
+ListaAero * procura_aeroporto(char IATA[3], ListaAero* *topo_aero);
 
 /*opcoes.c*/
 int escolha_opcoes(ListaAero *topo_aero, ListaRotas *topo_rotas, ListaEscalas *topo_escalas, int argc, char* argv[]);

@@ -40,7 +40,7 @@ void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero){
         if (count == 17 && 'A'<=ICAO[0] && ICAO[0]<='Z' && 'A'<=ICAO[1] && ICAO[1]<='Z' && 'A'<=ICAO[2] && ICAO[2]<='Z' && 'A'<=ICAO[3] && ICAO[3]<='Z' &&
             'A'<=IATA[0] && IATA[0]<='Z' && 'A'<=IATA[1] && IATA[1]<='Z' && 'A'<=IATA[2] && IATA[2]<='Z' && 
             0<=lat[0] && lat[0]<=180 && 0<=lat[1] && lat[1]<=60 && 0<=lat[2] && lat[2]<=60 && 0<=lon[0] && lon[0]<=180 && 0<=lon[1] && lon[1]<=60 && 0<=lon[2] && lon[2]<=60 && -12<=tz && tz<=12 && 
-            (slat=='N' || slat=='S') && (slon=='W' || slon=='E')) {
+            (slat=='N' || slat=='S') && (slon=='W' || slon=='E') && procura_aeroporto(IATA, topo_aero)==NULL) {
 
 			/*Alocação de memória e cópia para a lista*/
             ap_local = (ListaAero*)calloc(1, sizeof(ListaAero));
@@ -92,7 +92,8 @@ void leitura_lista_aero(FILE *fp, ListaAero* *topo_aero){
 void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aero){
     
     ListaRotas *ap_local = NULL;
-    ListaRotas *aux = *topo_rotas;  
+    ListaRotas *aux = *topo_rotas;
+    ListaAero *xpartida=NULL, *xchegada=NULL;  
     
     int hora_partida[2], hora_chegada[2], tempo[2], count1, count2, k;
     float distancia, tempo_decimal, hora_universal_partida, hora_universal_chegada;
@@ -123,12 +124,15 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
             0<=hora_partida[0] && hora_partida[0]<=23 && 0<=hora_partida[1] && hora_partida[1]<=59 && 0<=hora_chegada[0] && hora_chegada[0]<=23 && 0<=hora_chegada[1] && hora_chegada[1]<=59){
     
             tempo_decimal=0;
-            distancia=0;
+            distancia=0;   
 
+            xpartida = procura_aeroporto(IATA_partida, topo_aero);
+            xchegada = procura_aeroporto(IATA_chegada, topo_aero);
+    
 			/*Calculo distancia e tempo de voo*/
-			distancia = calcula_distancia(IATA_partida, IATA_chegada, topo_aero);
+			distancia = calcula_distancia(xpartida, xchegada);
 
-        	tempo_decimal=calcula_tempo(IATA_partida, IATA_chegada, hora_partida, hora_chegada, &hora_universal_partida, &hora_universal_chegada, topo_aero);
+        	tempo_decimal = calcula_tempo(hora_partida, hora_chegada, &hora_universal_partida, &hora_universal_chegada, xpartida, xchegada);
 
         	tempo[0] = (int)tempo_decimal; 
         	tempo[1] = (int)((tempo_decimal - tempo[0]) * 60);                   
@@ -163,7 +167,6 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
 	            ap_local->x.tempo[1] = tempo[1];
 	            ap_local->x.distancia = distancia;
                 ap_local->x.tempo_decimal = tempo_decimal;
-
 
 				/*Definição do apontador para o novo elemento da lista*/
 	            ap_local->prox = NULL;
