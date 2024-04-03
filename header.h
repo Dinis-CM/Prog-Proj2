@@ -88,7 +88,7 @@ void liberta_memoria(ListaAero* topo_aero, ListaRotas* topo_rotas, ListaEscalas*
 ListaAero * procura_aeroporto(char IATA[3], ListaAero* *topo_aero);
 
 /*opcoes.c*/
-int escolha_opcoes(ListaAero *topo_aero, ListaRotas *topo_rotas, ListaEscalas *topo_escalas, int argc, char* argv[]);
+int escolha_opcoes(ListaAero* *topo_aero, ListaRotas* *topo_rotas, ListaEscalas* *topo_escalas, int argc, char* argv[]);
 
 
 #endif

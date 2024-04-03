@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     leitura("aeroportos.txt", &topo_aero, &topo_rotas);
     leitura("rotas.txt", &topo_aero, &topo_rotas);
 
-    opcoes = escolha_opcoes(topo_aero, topo_rotas, topo_escalas, argc, argv);
+    opcoes = escolha_opcoes(&topo_aero, &topo_rotas, &topo_escalas, argc, argv);
 
     liberta_memoria(topo_aero, topo_rotas, topo_escalas);
 
