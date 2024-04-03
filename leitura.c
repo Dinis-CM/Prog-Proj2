@@ -151,16 +151,21 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
     }
 }
 
+/*Extração da informação da companhia aérea*/
 void determina_companhia(char line[], char* companhia){
     
     char companhia1[30]="\0", companhia2[30]="\0", reti[10]="\0";
 
+    /*Verificação se a "line" corresponde ao formato "AIRLINE"*/
     if(sscanf(line, "AIRLINE : %s %s", companhia1, companhia2) == 2)
             strcpy(companhia, strcat(companhia1, companhia2));
 
+    
+    /*Verifica se a stirng apresenta dados válidos e copia para a variavél "companhia"*/
     else if(sscanf(line, "AIRLINE : %s %s", companhia1, companhia2) == 1)
             strcpy(companhia, companhia1);
     
+    /*Compara a companhia aso "..." e atribui uma string vazia */
     sscanf(line, "%s", reti);
     if (strcmp(reti, "...")==0)
             strcpy(companhia, "\0");

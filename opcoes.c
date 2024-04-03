@@ -30,6 +30,7 @@ int escolha_opcoes(ListaAero *topo_aero, ListaRotas *topo_rotas, ListaEscalas *t
     
     }
     
+    /*Mostra e ordena as escalas de acordo com o código de classificação fornecido e os aeroportos fornecidos*/
     else if(argc==6 && strcmp(argv[1], argv[2])!=0 && strlen(argv[1])==3 && strlen(argv[2])==3 && strcmp(argv[3], "-L")==0 && strlen(argv[4])==1  && ( strlen(argv[5])==2 || strlen(argv[5])==3) && 'A'<=argv[1][0] && argv[1][0]<='Z' && 'A'<=argv[1][1] && argv[1][1]<='Z' && 'A'<=argv[1][2] && argv[1][2]<='Z' && 'A'<=argv[2][0] && argv[2][0]<='Z' && 'A'<=argv[2][1] && argv[2][1]<='Z' && 'A'<=argv[2][2] && argv[2][2]<='Z'){
         topo_escalas = Seleciona_lista(topo_rotas, argv[1], argv[2], n_escala);
         count = Ordena_lista(&topo_escalas, argv[5], n_escala);
@@ -40,6 +41,7 @@ int escolha_opcoes(ListaAero *topo_aero, ListaRotas *topo_rotas, ListaEscalas *t
 
     }
 
+    /*Mostra e ordena as escalas de acordo com o código de classificação fornecido, com os aeroportos fornecidos e as companhias*/
     else if(argc==7 && strcmp(argv[1], argv[2])!=0 && strlen(argv[1])==3 && strlen(argv[2])==3 && strcmp(argv[3], "-L")==0 && strlen(argv[4])==1  && strlen(argv[5])==3 && strlen(argv[6])==2 && 'A'<=argv[1][0] && argv[1][0]<='Z' && 'A'<=argv[1][1] && argv[1][1]<='Z' && 'A'<=argv[1][2] && argv[1][2]<='Z' && 'A'<=argv[2][0] && argv[2][0]<='Z' && 'A'<=argv[2][1] && argv[2][1]<='Z' && 'A'<=argv[2][2] && argv[2][2]<='Z'){
         topo_escalas = Seleciona_lista(topo_rotas, argv[1], argv[2], n_escala);
         Ordena_lista(&topo_escalas, argv[5], n_escala);
