@@ -8,10 +8,13 @@ FLAG = -Wall -pedantic -ansi -lm -g
 default: rotas2024
 
 # Linking
-rotas2024: main.o leitura.o calculo.o mostra.o ordena.o seleciona.o memoria.o
+rotas2024: main.o leitura.o calculo.o mostra.o ordena.o seleciona.o memoria.o opcoes.o
 	$(CC) main.c -o rotas2024 $(FLAG)
 
 # Compilation
+opcoes.o: opcoes.c
+	$(CC) -c opcoes.c
+
 memoria.o: memoria.c
 	$(CC) -c memoria.c
 

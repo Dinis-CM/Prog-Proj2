@@ -85,4 +85,8 @@ void troca_conteudos(ListaEscalas *a, ListaEscalas *b);
 ListaEscalas* RetiraDaLista(ListaEscalas* *topo, ListaEscalas* ap_antes);
 void liberta_memoria(ListaAero* topo_aero, ListaRotas* topo_rotas, ListaEscalas* topo_escalas);
 
+/*opcoes.c*/
+int escolha_opcoes(ListaAero *topo_aero, ListaRotas *topo_rotas, ListaEscalas *topo_escalas, int argc, char* argv[]);
+
+
 #endif

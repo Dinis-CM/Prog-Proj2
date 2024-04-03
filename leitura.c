@@ -175,13 +175,10 @@ void leitura_lista_rotas(FILE *fp, ListaRotas* *topo_rotas, ListaAero* *topo_aer
 
 	            else {
 	                aux = *topo_rotas;
-
 	                while (aux->prox != NULL)
 	                    aux = aux->prox;
-	            
 	                aux->prox = ap_local;
 	            }
-
 			}
         }
     }
